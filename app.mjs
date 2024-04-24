@@ -8,7 +8,6 @@ import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 import session from 'express-session';
 import hbs from 'hbs';
-import { User, Post, Reply, Goal } from './models.js'; // Import your mongoose models
 
 
 const app = express();
@@ -59,8 +58,35 @@ app.get("/addPost", (req, res) => {
     res.render('addPost');
 });
     
-app.get("/goals", (req, res) => {
-    res.render('goals');
+app.get("/goals", async (req, res) => {
+    // Fetch all goals of the user
+    const userID = "userid"; //remove
+    const userGoals = await Goal.find({ user: userID }); //change to req.user._id
+    console.log("goals", userGoals); 
+    res.render('goals', {userGoals: userGoals});
+});
+
+app.post("/goals", async (req, res) => {
+    try {
+        // Parse the form data
+        const { goalContent } = req.body;
+
+        // remove 
+        const userID = "userid";
+
+        await Goal.create({
+            content: goalContent,
+            user: userID, //remove and change to req.user._id
+        });
+
+        const userGoals = await Goal.find({ user: userID }); //change to req.user._id
+        // Render the goals template with the user's goals
+        res.render('goals', { userGoals: userGoals });
+    } catch (error) {
+        // Handle any errors
+        console.error('Error adding goal:', error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 

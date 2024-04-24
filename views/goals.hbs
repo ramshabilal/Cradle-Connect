@@ -1,0 +1,104 @@
+<nav class="navbar navbar-expand-lg navbar2">
+    <div class="container">
+        <a class="navbar-brand click-scroll" href="/">
+            <i class="bi-back"></i>
+            <span>CradleConnect</span>
+        </a>
+
+        <div class="d-lg-none ms-auto me-4">
+            <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                <li class="nav-item">
+                    <a class="nav-link inactive" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link click-scroll" href="articles">Articles</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="community">Community</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="faq">FAQs</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="diary">Dear Diary</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="goals">Goals</a>
+                </li>
+
+                {{!-- <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+
+                    <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                        <li><a class="dropdown-item" href="topics-listing.html">Topics Listing</a></li>
+
+                        <li><a class="dropdown-item" href="contact.html">Contact Form</a></li>
+                    </ul>
+                </li> --}}
+            </ul>
+
+            <div class="d-none d-lg-block">
+                <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<main>
+    <section class="goals-section section-padding" id="section_goals">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="mb-4">Goals</h2>
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div class="col-lg-5 col-12">
+                    <img src = "images/goals.webp" class="img-fluid" alt="goals">
+                </div>
+
+                <div class="col-lg-6 col-12 m-auto">
+                    <!-- Form to add new goal -->
+                    <form method="POST" action="/goals" id="addGoalForm">
+                        <div class="mb-3">
+                            <label for="goalContent" class="form-label">Goal</label>
+                            <input type="text" class="form-control" id="goalContent" name="goalContent" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Goal</button>
+                    </form>
+
+                    <!-- Checklist for goals -->
+                    <div class="mt-4">
+                        <h4>My Goals</h4>
+                        <div class="list-group" id="goalList">
+                            {{#each userGoals}}
+                                <div> <input type="checkbox" {{#if this.completed}}checked{{/if}}>     {{this.content}}</div>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<footer class="site-footer section-padding">
+    <div class="container">
+        <div class="row">
+
+        </div>
+    </div>
+</footer>
+

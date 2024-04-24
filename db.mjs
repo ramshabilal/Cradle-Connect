@@ -1,5 +1,5 @@
 // Import mongoose library
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 // Define the user schema
 const userSchema = new mongoose.Schema({
@@ -80,8 +80,9 @@ const goalSchema = new mongoose.Schema({
   },
   // Reference to the user who created the goal
   user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    //type: mongoose.Schema.Types.ObjectId,
+    //ref: 'User',
+    type: String, //to be removed
     required: true
   }
 });
@@ -92,9 +93,9 @@ const Post = mongoose.model('Post', postSchema);
 const Reply = mongoose.model('Reply', replySchema);
 const Goal = mongoose.model('Goal', goalSchema);
 
-module.exports = { User, Post, Reply, Goal };
 
-mongoose.connect(process.env.DSN);
+//mongoose.connect(process.env.DSN);
+mongoose.connect("mongodb+srv://ramshabilal:RsRRPoY9gZCVNjhi@cluster0.siam2zv.mongodb.net/cradleconnect?retryWrites=true&w=majority&appName=Cluster0");
 
 const db = mongoose.connection;
 
@@ -105,3 +106,5 @@ db.on('error', (err) => {
 db.once('open', () => {
     console.log('Connected to MongoDB');
 });
+
+export { User, Post, Reply, Goal };
