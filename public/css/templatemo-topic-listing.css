@@ -1272,7 +1272,12 @@ img.profile-photo-sm {
 
 .post-box {
   width: 100%;
-  margin-bottom: 100px;;
+  margin-top: 150px;
+}
+
+.post-box2 {
+  width: 100%;
+  margin-bottom: 50px;
 }
 
 .post-box p {
@@ -1303,6 +1308,6 @@ img.profile-photo-sm {
   border: 2px solid #000000;
 }
 
-.custom-btn {
+.custom-btn3 {
   width: 100%; /* Make the button span the full width */
 }
