@@ -49,6 +49,10 @@ app.get("/addDiary", (req, res) => {
 app.get("/community", (req, res) => {
     res.render('community');
 });
+
+app.get("/addPost", (req, res) => {
+    res.render('addPost');
+});
     
 
 app.listen(3000);

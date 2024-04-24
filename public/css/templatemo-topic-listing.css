@@ -1244,6 +1244,10 @@ blockquote {
   min-width: 0;
 }
 
+.post-content {
+  margin-top: 20px;
+}
+
 img.profile-photo-md {
     height: 50px;
     width: 50px;
