@@ -1272,11 +1272,37 @@ img.profile-photo-sm {
 
 .post-box {
   width: 100%;
-  margin-top: 150px;
+  margin-bottom: 100px;;
 }
 
 .post-box p {
   /* font-size: 20px;
   font-weight: 500; */
   color: #000000;
+}
+
+
+.custom-form .form-control {
+  border-radius: 0; /* Remove rounded corners */
+}
+
+.mood-selection {
+  margin-bottom: 10px;
+}
+
+.mood-btn {
+  font-size: 24px;
+  background-color: transparent;
+  border: none;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.mood-btn.selected {
+  /* border: 2px solid var(--primary-color); */
+  border: 2px solid #000000;
+}
+
+.custom-btn {
+  width: 100%; /* Make the button span the full width */
 }

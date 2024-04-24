@@ -20,3 +20,25 @@ $.each(sectionArray, function(index, value){
     });
     
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const moodButtons = document.querySelectorAll('.mood-btn');
+  
+    moodButtons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        // Remove the 'selected' class from all mood buttons
+        moodButtons.forEach(function (btn) {
+          btn.classList.remove('selected');
+        });
+  
+        // Add the 'selected' class to the clicked mood button
+        button.classList.add('selected');
+  
+        // Set the value of the hidden input field to the selected mood
+        const selectedMood = button.getAttribute('data-mood');
+        document.getElementById('mood').value = selectedMood;
+      });
+    });
+  });
+  

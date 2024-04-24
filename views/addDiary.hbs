@@ -1,0 +1,106 @@
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand click-scroll" href="/">
+            <i class="bi-back"></i>
+            <span>CradleConnect</span>
+        </a>
+
+        <div class="d-lg-none ms-auto me-4">
+            <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                <li class="nav-item">
+                    <a class="nav-link inactive" href="/">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link click-scroll" href="articles">Articles</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="community">Community</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="faq">FAQs</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="diary">Dear Diary</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="goals">Goals</a>
+                </li>
+
+                {{!-- <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+
+                    <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                        <li><a class="dropdown-item" href="topics-listing.html">Topics Listing</a></li>
+
+                        <li><a class="dropdown-item" href="contact.html">Contact Form</a></li>
+                    </ul>
+                </li> --}}
+            </ul>
+
+            <div class="d-none d-lg-block">
+                <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<section class="hero-section hero-section2 d-flex justify-content-center align-items-center" id="section_1">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-12 text-center">
+                    <h2 class="mb-4">Whats on Your Mind?</h2>
+                    {{!-- <a href="/addDiary" class="btn custom-btn custom-btn2 mt-3 mt-lg-4">Click Here to Add Today's Entry</a> --}}
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 mx-auto">
+                        <div class="post-box">
+                            <form class="custom-form">
+                                <div class="form-group">
+                                    <label for="date">Date:</label>
+                                    <input type="date" id="date" class="form-control" name="date">
+                                </div>
+                                <div class="form-group">
+                                    <label for="summary">One Line Summary</label>
+                                    <input type="text" id="summary" class="form-control" name="summary">
+                                </div>
+                                <div class="form-group">
+                                    <label for="message">Thoughts</label>
+                                    <input type="text" id="message" class="form-control" name="message">
+                                </div>
+                                <div class="form-group">
+                                    <label for="mood">Mood:</label>
+                                    <div class="mood-selection">
+                                    <button type="button" class="mood-btn" data-mood="happy">😊</button>
+                                    <button type="button" class="mood-btn" data-mood="sad">😢</button>
+                                    <button type="button" class="mood-btn" data-mood="angry">😠</button>
+                                    <button type="button" class="mood-btn" data-mood="calm">😌</button>
+                                    </div>
+                                    <input type="hidden" id="mood" name="mood">
+                                </div>
+                                <button type="submit" class="custom-btn">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
