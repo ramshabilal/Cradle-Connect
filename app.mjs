@@ -54,6 +54,10 @@ app.get("/addPost", (req, res) => {
     res.render('addPost');
 });
     
+app.get("/goals", (req, res) => {
+    res.render('goals');
+});
+
 
 app.listen(3000);
 console.log("http://127.0.0.1:3000/");
