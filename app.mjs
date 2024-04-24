@@ -1,3 +1,5 @@
+import './db.mjs';
+
 import flash from 'connect-flash';
 
 import express from 'express'
@@ -6,6 +8,7 @@ import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 import session from 'express-session';
 import hbs from 'hbs';
+import { User, Post, Reply, Goal } from './models.js'; // Import your mongoose models
 
 
 const app = express();
@@ -17,6 +20,8 @@ const sessionOptions = {
 };
 app.use(session(sessionOptions));
 app.use(flash());
+
+import {User, Post, Reply, Goal} from './db.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
