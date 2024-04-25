@@ -139,8 +139,16 @@ const isAuthenticated = (req, res, next) => {
     }
 };
 
-app.get("/", isAuthenticated, (req, res) => {
-    res.render('home');
+// app.get("/", isAuthenticated, (req, res) => {
+//     res.render('home');
+// });
+
+app.get("/", (req, res) => {
+  if (req.isAuthenticated()) {
+      res.render('home');
+  } else {
+      res.render('landing');
+  }
 });
 
 app.get("/articles", isAuthenticated, (req, res) => {
@@ -189,12 +197,39 @@ app.post('/addDiary', isAuthenticated, async (req, res) => {
     res.redirect('/diary');
 });
 
-app.get("/community", (req, res) => {
-    res.render('community');
+app.get("/community", isAuthenticated, async (req, res) => {
+  try {
+    const allPosts = await Post.find({});
+    console.log("Posts: ", allPosts);
+    if (allPosts.length === 0) {
+        return res.render('community', { allPosts });
+    }
+    
+    allPosts.sort((a, b) => {
+        return b.date - a.date;
+    });
+    
+    res.render('community', { allPosts });
+} catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+}
 });
 
 app.get("/addPost", (req, res) => {
     res.render('addPost');
+});
+
+app.post("/addPost", isAuthenticated, async (req, res) =>{
+  let {message} = req.body;
+  const newPost = new Post({
+    content: message,
+    user: req.user._id,
+});
+
+await newPost.save();
+console.log("Saved");
+res.redirect('/community');
 });
 
 app.get("/signin", (req, res) => {
