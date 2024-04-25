@@ -24,6 +24,11 @@ const userSchema = new mongoose.Schema({
   goals: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Goal'
+  }],
+  // Array of references to user's blog
+  blogs: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Blog'
   }]
 });
 
@@ -87,12 +92,34 @@ const goalSchema = new mongoose.Schema({
   }
 });
 
+const blogSchema = new mongoose.Schema({
+  content: {
+    type: String,
+    required: true
+  },
+  // Reference to the user who created the blog
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  date: {
+    type: Date,
+    required: true
+  },
+  mood: {
+    type: String,
+    required: true
+  }
+});
+
+
 // Create and export mongoose models based on the schemas
 const User = mongoose.model('User', userSchema);
 const Post = mongoose.model('Post', postSchema);
 const Reply = mongoose.model('Reply', replySchema);
 const Goal = mongoose.model('Goal', goalSchema);
-
+const Blog = mongoose.model('Blog', blogSchema);
 
 //mongoose.connect(process.env.DSN);
 mongoose.connect("mongodb+srv://ramshabilal:RsRRPoY9gZCVNjhi@cluster0.siam2zv.mongodb.net/cradleconnect?retryWrites=true&w=majority&appName=Cluster0");
