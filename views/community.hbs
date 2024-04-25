@@ -58,6 +58,7 @@
 </nav>
 
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<section class="hero-section hero-section2 d-flex justify-content-center align-items-center" id="section_1">
 <div class="container">
     <div class="row">
         <div class="col-md-8 post-box">
@@ -65,77 +66,49 @@
                 <h2 class="mb-4">Community Forum</h1>
                 <a href="/addPost" class="btn custom-btn custom-btn2 mt-3 mt-lg-4">+ Add New Post</a>
               </div>
-            <div class="post-content">
-              {{!-- <img src="https://www.bootdey.com/image/400x150/FFB6C1/000000" alt="post-image" class="img-responsive post-image"> --}}
-              <div class="post-container">
-                <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="user" class="profile-photo-md pull-left">
-                <div class="post-detail">
-                  <div class="user-info">
-                    <h5><a href="timeline.html" class="profile-link">Alexis Clark</a> <span class="following">following</span></h5>
-                    <p class="text-muted">Published a photo about 3 mins ago</p>
-                  </div>
-                  <div class="reaction">
-                    <a class="btn text-green"><i class="fa fa-thumbs-up"></i> 13</a>
-                    <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
-                  </div>
-                  <div class="line-divider"></div>
-                  <div class="post-text">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
-                  </div>
-                  <div class="line-divider"></div>
-                  <div class="post-comment">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" class="profile-photo-sm">
-                    <p><a href="timeline.html" class="profile-link">Diana </a><i class="em em-laughing"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
-                  </div>
-                  <div class="post-comment">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="profile-photo-sm">
-                    <p><a href="timeline.html" class="profile-link">John</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
-                  </div>
-                  <div class="post-comment">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="profile-photo-sm">
+          
+               <div class="col-lg-8 col-12 mt-3 mx-auto">
+                {{#if allPosts.length}}
+                    {{#each allPosts}}
+                        <div class="custom-block custom-block-topics-listing bg-white shadow-lg mb-5">
+                            <div class="d-flex">
+                                
+                                {{!-- <img src="images/topics/undraw_Remote_design_team_re_urdx.png" class="custom-block-image img-fluid" alt=""> --}}
 
 
-                    <input type="text" class="form-control" placeholder="Post a comment">
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="post-content">
-              {{!-- <img src="https://www.bootdey.com/image/400x150/FFB6C1/000000" alt="post-image" class="img-responsive post-image"> --}}
-              <div class="post-container">
-                <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="user" class="profile-photo-md pull-left">
-                <div class="post-detail">
-                  <div class="user-info">
-                    <h5><a href="timeline.html" class="profile-link">Alexis Clark</a> <span class="following">following</span></h5>
-                    <p class="text-muted">Published a photo about 3 mins ago</p>
-                  </div>
-                  <div class="reaction">
-                    <a class="btn text-green"><i class="fa fa-thumbs-up"></i> 13</a>
-                    <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
-                  </div>
-                  <div class="line-divider"></div>
-                  <div class="post-text">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
-                  </div>
-                  <div class="line-divider"></div>
-                  <div class="post-comment">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" class="profile-photo-sm">
-                    <p><a href="timeline.html" class="profile-link">Diana </a><i class="em em-laughing"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
-                  </div>
-                  <div class="post-comment">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="profile-photo-sm">
-                    <p><a href="timeline.html" class="profile-link">John</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
-                  </div>
-                  <div class="post-comment">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="profile-photo-sm">
+                                <div class="custom-block-topics-listing-info d-flex">
+                                    <div>
+                                        <h5 class="mb-2"> {{this.content}}</h5>
 
                     
-                    <input type="text" class="form-control" placeholder="Post a comment">
-                  </div>
-                </div>
-              </div>
+                                        </p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                {{else}}
+                    <div class="custom-block custom-block-topics-listing bg-white shadow-lg mb-5">
+                            <div class="d-flex">
+                                <img src="images/topics/undraw_Remote_design_team_re_urdx.png" class="custom-block-image img-fluid" alt="">
+
+                                <div class="custom-block-topics-listing-info d-flex">
+                                    <div>
+                                        <h5 class="mb-2">No Entries Found</h5>
+
+                                        <p class="mb-0">You still haven't added anything to your diary yet. Click on the button above to start your journaling journey.</p>
+                                        </p>
+
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                {{/if}}
+            </div> 
+              
             </div>
         </div>
     </div>
 </div>
+</section>
