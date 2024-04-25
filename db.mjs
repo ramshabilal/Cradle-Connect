@@ -93,7 +93,11 @@ const goalSchema = new mongoose.Schema({
 });
 
 const blogSchema = new mongoose.Schema({
-  content: {
+  thoughts: {
+    type: String,
+    required: true
+  },
+  summary: {
     type: String,
     required: true
   },
@@ -134,4 +138,4 @@ db.once('open', () => {
     console.log('Connected to MongoDB');
 });
 
-export { User, Post, Reply, Goal };
+export { User, Post, Reply, Goal, Blog };

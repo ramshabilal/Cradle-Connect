@@ -1,4 +1,7 @@
 import './db.mjs';
+import bcrypt from 'bcryptjs';
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
 
 import flash from 'connect-flash';
 
@@ -8,7 +11,11 @@ import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 import session from 'express-session';
 import hbs from 'hbs';
+import Handlebars from 'handlebars';
 
+// Handlebars.registerHelper('eq', function(a, b, options) {
+//     return a === b ? options.fn(this) : options.inverse(this);
+// });
 
 const app = express();
 
@@ -20,7 +27,7 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 app.use(flash());
 
-import {User, Post, Reply, Goal} from './db.mjs';
+import {User, Post, Reply, Goal, Blog} from './db.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -30,24 +37,156 @@ app.set('view engine', 'hbs');
 
 app.use(express.urlencoded({ extended: false }));
 
-app.get("/", (req, res) => {
+
+
+app.get("/signup", (req, res) => {
+    res.render('signup');
+});
+
+app.post('/signup', async (req, res) => {
+    let { name, email, password, retypePassword } = req.body;
+    email = email.toLowerCase();
+    const MIN_PASSWORD_LENGTH = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasNumber = /\d/.test(password);
+
+    try {
+        const existingEmail = await User.findOne({ email });
+        if (existingEmail) {
+            return res.render('signup', { error: 'Email already is use. Please try again!' });
+        }
+  
+        if (password.length < MIN_PASSWORD_LENGTH || !hasUpperCase || !hasNumber) {
+          return res.render('signup', { error: 'Invalid Password Format. Password must be at least 8 characters long and must contain at least 1 uppercase and 1 digit.' });
+        }
+  
+        if (password !== retypePassword) {
+          return res.render('signup', { error: 'Passwords do not match. Please try again!' });
+        }
+
+        const saltRounds = parseInt(process.env.SALT_ROUNDS, 10);
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        const newUser = new User({
+            name,
+            password: hashedPassword,
+            email: email,
+            posts: [],
+            goals: [],
+            blogs: []
+        });
+
+        await newUser.save();
+
+        res.redirect('/signin');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+
+});
+
+
+passport.use(new LocalStrategy(
+    {
+      usernameField: 'email',
+      passwordField: 'password',
+    },
+    async (email, password, done) => {
+    console.log(email, password)
+      email = email.toLowerCase()
+      try {
+        const user = await User.findOne({ email });
+  
+        if (!user) {
+          return done(null, false, { message: 'User not found' });
+        }
+        const passwordMatch = await bcrypt.compare(password, user.password);
+  
+        if (passwordMatch) {
+            console.log("User found");
+          return done(null, user);
+        } else {
+          return done(null, false, { message: 'Invalid password' });
+        }
+      } catch (error) {
+        return done(error);
+      }
+    }
+  ));
+  
+  passport.serializeUser((user, done) => {
+    done(null, user.id);
+  });
+  
+  passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await User.findById(id);
+      done(null, user);
+    } catch (error) {
+      done(error);
+    }
+  });
+  
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+const isAuthenticated = (req, res, next) => {
+    if (req.isAuthenticated()) {
+      return next();
+    } else {
+      res.redirect('/signin');
+    }
+};
+
+app.get("/", isAuthenticated, (req, res) => {
     res.render('home');
 });
 
-app.get("/articles", (req, res) => {
+app.get("/articles", isAuthenticated, (req, res) => {
     res.render('articles');
 });
 
-app.get("/faq", (req, res) => {
+app.get("/faq", isAuthenticated, (req, res) => {
     res.render('faq');
 });
 
-app.get("/diary", (req, res) => {
-    res.render('diary');
+app.get("/diary", isAuthenticated, async (req, res) => {
+    try {
+        const allEntries = await Blog.find({ user: req.user._id });
+
+        if (allEntries.length === 0) {
+            return res.render('diary', { allEntries });
+        }
+        
+        allEntries.sort((a, b) => {
+            return b.date - a.date;
+        });
+        // allEntries.sort({ date: -1 });
+        res.render('diary', { allEntries });
+    } catch (error) {
+        // Handle errors appropriately
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
-app.get("/addDiary", (req, res) => {
+app.get("/addDiary", isAuthenticated, (req, res) => {
     res.render('addDiary');
+});
+
+app.post('/addDiary', isAuthenticated, async (req, res) => {
+    let { date, summary, thoughts, mood } = req.body;
+    const newEntry = new Blog({
+        thoughts: thoughts,
+        summary: summary,
+        user: req.user._id,
+        date: date,
+        mood: mood
+    });
+
+    await newEntry.save();
+    res.redirect('/diary');
 });
 
 app.get("/community", (req, res) => {
@@ -57,16 +196,30 @@ app.get("/community", (req, res) => {
 app.get("/addPost", (req, res) => {
     res.render('addPost');
 });
+
+app.get("/signin", (req, res) => {
+    const messages = req.flash();
+    if (messages.error !== undefined) {
+        messages.error = messages.error + '. Enter valid username and password.';
+    }
+    res.render('signin', { messages });
+});
+  
+app.post('/signin', passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/signin',
+  failureFlash: true
+}));
     
-app.get("/goals", async (req, res) => {
+app.get("/goals", isAuthenticated, async (req, res) => {
     // Fetch all goals of the user
     const userID = "userid"; //remove
     const userGoals = await Goal.find({ user: userID }); //change to req.user._id
-    console.log("goals", userGoals); 
+    // console.log("goals", userGoals); 
     res.render('goals', {userGoals: userGoals});
 });
 
-app.post("/goals", async (req, res) => {
+app.post("/goals", isAuthenticated, async (req, res) => {
     try {
         // Parse the form data
         const { goalContent } = req.body;

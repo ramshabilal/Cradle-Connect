@@ -1,0 +1,82 @@
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand click-scroll" href="/">
+            <i class="bi-back"></i>
+            <span>CradleConnect</span>
+        </a>
+
+        <div class="d-lg-none ms-auto me-4">
+            <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                <li class="nav-item">
+                </li>
+
+                <li class="nav-item">
+                </li>
+
+                <li class="nav-item">
+                </li>
+
+                <li class="nav-item">
+                </li>
+
+                <li class="nav-item">
+                </li>
+
+                <li class="nav-item">
+                </li>
+            </ul>
+
+            <div class="d-none d-lg-block">
+                <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/signup">Sign Up</a>
+                </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<section class="hero-section hero-section2 d-flex justify-content-center align-items-center" id="section_1">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-12 text-center">
+                    <h2 class="mb-4">Sign In</h2>
+                    {{!-- <a href="/addDiary" class="btn custom-btn custom-btn2 mt-3 mt-lg-4">Click Here to Add Today's Entry</a> --}}
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 mx-auto">
+                        <div class="post-box2">
+                            {{#if messages.error}}
+                                <p style="color: red;">{{messages.error}}</p>
+                            {{/if}}
+                            <form class="custom-form" action="/signin" method="POST">
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="text" id="email" class="form-control" name="email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="text" id="password" class="form-control" name="password">
+                                </div>
+                                <button type="submit" class="custom-btn">Sign In</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
