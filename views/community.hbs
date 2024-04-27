@@ -1,3 +1,6 @@
+
+<html>
+    <body>
 <nav class="navbar navbar-expand-lg navbar2">
     <div class="container">
         <a class="navbar-brand click-scroll" href="/">
@@ -62,30 +65,38 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 post-box">
-              <div class="col-12 text-center">
+            <div class="col-12 text-center">
                 <h2 class="mb-4">Community Forum</h1>
                 <a href="/addPost" class="btn custom-btn custom-btn2 mt-3 mt-lg-4">+ Add New Post</a>
-              </div>
-          
-               <div class="col-lg-8 col-12 mt-3 mx-auto">
+            </div>
+            
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+            <div class="col-lg-8 col-12 mt-3 mx-auto">
                 {{#if allPosts.length}}
                     {{#each allPosts}}
                         <div class="custom-block custom-block-topics-listing bg-white shadow-lg mb-5">
                             <div class="d-flex">
-                                
-                                {{!-- <img src="images/topics/undraw_Remote_design_team_re_urdx.png" class="custom-block-image img-fluid" alt=""> --}}
-
-
                                 <div class="custom-block-topics-listing-info d-flex">
                                     <div>
-                                        <h5 class="mb-2"> {{this.content}}</h5>
-
-                    
-                                        </p>
-
+                                        <h5 class="mb-2"> {{this.content}} <br/>
+                                        {{formatDate this.date}} <br/>
+                                        {{this.user.name}}
+                                        {{this._id}}</h5>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        
+                            <!-- Comments -->
+                        <div class="commentsContainer" id="commentsContainer" style="background-color: white">
+                        {{#each this.replies}}
+                                <p>{{this.userName}}:  {{this.content}}</p>
+                        {{/each}}
+                        <form id="commentForm" data-post-id="{{this._id}}">
+                            <input type="text" id="commentInput" name="comment" placeholder="Add a comment">
+                            <button type="submit">Submit</button>
+                        </form>
                         </div>
                     {{/each}}
                 {{else}}
@@ -112,3 +123,33 @@
     </div>
 </div>
 </section>
+
+ <!-- JavaScript to handle form submission and AJAX request -->
+<script>
+    $(document).ready(function() {
+        $('#commentForm').submit(function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Get comment content from input field
+            var commentContent = $('#commentInput').val();
+            var postId = $(this).data('post-id');
+            // Send AJAX request to server to submit comment
+            $.ajax({
+                url: '/submitComment',
+                method: 'POST',
+                data: { comment: commentContent, postId:postId },
+                success: function(response) {
+                    // Upon successful submission, append the new comment to the UI
+                    var newComment = '<div class="comment">' + response.userName + ": " + response.comment + '</div>';
+                    $('#commentsContainer').append(newComment);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error submitting comment:', error);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
+

@@ -50,8 +50,11 @@ const postSchema = new mongoose.Schema({
   },
   // Array of references to replies on this post
   replies: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Reply'
+    // type: mongoose.Schema.Types.ObjectId,
+    // ref: 'Reply'
+    content: String,
+    user: String,
+    userName: String
   }]
 });
 
@@ -66,6 +69,10 @@ const replySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
+  },
+  userName:{
+    type: String,
+    required:true
   },
   date: {
     type: Date,

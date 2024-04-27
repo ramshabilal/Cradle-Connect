@@ -12,6 +12,7 @@ import mongoose from 'mongoose';
 import session from 'express-session';
 import hbs from 'hbs';
 import Handlebars from 'handlebars';
+import moment from 'moment';
 
 // Handlebars.registerHelper('eq', function(a, b, options) {
 //     return a === b ? options.fn(this) : options.inverse(this);
@@ -37,7 +38,10 @@ app.set('view engine', 'hbs');
 
 app.use(express.urlencoded({ extended: false }));
 
-
+// Register Handlebars helper for date formatting
+hbs.registerHelper('formatDate', function(date) {
+  return moment(date).format('MMMM Do YYYY, h:mm a');
+});
 
 app.get("/signup", (req, res) => {
     res.render('signup');
@@ -232,6 +236,39 @@ console.log("Saved");
 res.redirect('/community');
 });
 
+
+app.post("/addReply", isAuthenticated, async (req, res) => {
+  try {
+      const postId = req.body.postId; // Assuming you're sending postId in the request body
+      const content = req.body.comment; // Assuming you're sending the reply content in the request body
+      const userName = req.user.name; // Assuming you have access to the authenticated user's name
+      console.log("Hereeee:\n", "\n", req.body, "\n", req.user);
+      // Find the post by its ID
+      const post = await Post.findById(postId);
+
+      if (!post) {
+          return res.status(404).json({ error: "Post not found" });
+      }
+
+      // Create a new reply object
+      const newReply = {
+          content: content,
+          userName: userName // Save the user's name as a string
+      };
+
+      // Push the new reply to the post's replies array
+      post.replies.push(newReply);
+
+      // Save the updated post
+      await post.save();
+
+      res.redirect('/community');
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 app.get("/signin", (req, res) => {
     const messages = req.flash();
     if (messages.error !== undefined) {
@@ -276,6 +313,40 @@ app.post("/goals", isAuthenticated, async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
+
+// Route to handle comment submission
+app.post('/submitComment', isAuthenticated, async (req, res) => {
+  try {
+      const { comment, postId } = req.body;
+      console.log("reqbody:   ", req.body); 
+      // Save comment to the database
+      const newComment = await Reply.create({
+          content: comment,
+          user: req.user._id,
+          userName: req.user.name
+          // Other relevant data...
+      });
+
+      //await newComment.save();
+      //await newComment.save();
+      let post = await Post.findById(postId); 
+      if (!post) {
+        return res.status(404).json({ error: 'Post not found' });
+      }
+      console.log("POST FOUND: ", post); 
+      
+      post.replies.push(newComment);
+      console.log("Post replies: ", post.replies);
+      await post.save();
+      // Respond with the newly created comment data
+      res.json({ comment: newComment.content, userName: newComment.userName });
+  } catch (error) {
+      console.error('Error submitting comment:', error);
+      res.status(500).send('Internal Server Error');
+  }
+});
+
 
 
 app.listen(3000);
