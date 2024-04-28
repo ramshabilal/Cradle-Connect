@@ -347,6 +347,30 @@ app.post('/submitComment', isAuthenticated, async (req, res) => {
   }
 });
 
+// Route to handle comment deletion
+// app.delete('/deleteComment', isAuthenticated, async (req, res) => {
+//   try {
+//       const { postId, commentId } = req.body;
+//       console.log("POST ID: ", postId);
+//       // Find the post by ID and remove the comment from its replies array
+//       const post = await Post.findByIdAndUpdate(postId, { $pull: { replies: commentId } }, { new: true });
+//       console.log("POST IS: ", post);
+//       // Check if the post exists
+//       if (!post) {
+//           return res.status(404).json({ error: 'Post not found' });
+//       }
+
+//       // Delete the comment from the database
+//       await Reply.findByIdAndDelete(commentId);
+
+//       res.status(200).json({ message: 'Comment deleted successfully' });
+//   } catch (error) {
+//       console.error('Error deleting comment:', error);
+//       res.status(500).send('Internal Server Error');
+//   }
+// });
+
+
 
 
 app.listen(3000);

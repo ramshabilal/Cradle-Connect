@@ -1,5 +1,11 @@
-
 <html>
+    <head>
+        <style>
+            .comment {
+                border: black
+            }
+        </style>
+    </head>
     <body>
 <nav class="navbar navbar-expand-lg navbar2">
     <div class="container">
@@ -87,16 +93,22 @@
                                 </div>
                             </div>
                         </div>
-                        
-                            <!-- Comments -->
-                        <div class="commentsContainer" id="commentsContainer" style="background-color: white">
-                        {{#each this.replies}}
+
+                        <!-- Comments -->
+                        <div class="commentsContainer" id="commentsContainer-{{this._id}}" style="background-color: white">
+                            {{#each this.replies}}
                                 <p>{{this.userName}}:  {{this.content}}</p>
-                        {{/each}}
-                        <form id="commentForm" data-post-id="{{this._id}}">
-                            <input type="text" id="commentInput" name="comment" placeholder="Add a comment">
-                            <button type="submit">Submit</button>
+                                {{!-- <button class="deleteBtn" data-comment-id="{{this._id}}">Delete</button> --}}
+                            {{/each}}
+                        
+                        </div>
+                        <div>
+                        <form class="commentForm" id="commentForm-{{this._id}}" data-post-id="{{this._id}}">
+                                <input type="text" class="commentInput" name="comment" placeholder="Add a comment">
+                                <button type="submit" class="submitBtn">Submit</button>
                         </form>
+
+                        {{!-- <button id="toggleCommentsBtn">Show More</button> --}}
                         </div>
                     {{/each}}
                 {{else}}
@@ -127,29 +139,83 @@
  <!-- JavaScript to handle form submission and AJAX request -->
 <script>
     $(document).ready(function() {
-        $('#commentForm').submit(function(event) {
-            event.preventDefault(); // Prevent default form submission
+    $('.commentForm').submit(function(event) {
+        event.preventDefault(); // Prevent default form submission
 
-            // Get comment content from input field
-            var commentContent = $('#commentInput').val();
-            var postId = $(this).data('post-id');
-            // Send AJAX request to server to submit comment
-            $.ajax({
-                url: '/submitComment',
-                method: 'POST',
-                data: { comment: commentContent, postId:postId },
-                success: function(response) {
-                    // Upon successful submission, append the new comment to the UI
-                    var newComment = '<div class="comment">' + response.userName + ": " + response.comment + '</div>';
-                    $('#commentsContainer').append(newComment);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error submitting comment:', error);
-                }
-            });
+        // Get comment content from input field
+        var commentContent = $(this).find('.commentInput').val();
+        var postId = $(this).data('post-id');
+
+        // Send AJAX request to server to submit comment
+        $.ajax({
+            url: '/submitComment',
+            method: 'POST',
+            data: { comment: commentContent, postId: postId },
+            success: function(response) {
+                // Upon successful submission, append the new comment to the UI
+                var newComment = '<div class="comment">' + response.userName + ": " + response.comment + '</div>';
+                $('#commentsContainer-' + postId).append(newComment);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error submitting comment:', error);
+            }
         });
     });
+
+
+    // Initially hide comments beyond the first 5
+    $('.comment').slice(5).hide();
+
+    // Event listener for toggle button
+    $('#toggleCommentsBtn').click(function() {
+        $('.comment').slice(5).toggle();
+        $(this).text(function(i, text) {
+            return text === "Show More" ? "Show Less" : "Show More";
+        });
+    });
+
+    // Event listener for delete buttons
+     $('.deleteBtn').click(function() {
+        var commentId = $(this).data('comment-id');
+        var postId = $(this).closest('.commentsContainer').data('post-id');
+
+        // Send AJAX request to server to delete the comment
+        $.ajax({
+            url: '/deleteComment',
+            method: 'DELETE',
+            data: { postId: postId, commentId: commentId },
+            success: function(response) {
+                // Remove the deleted comment from the UI
+                $(this).closest('.comment').remove();
+            },
+            error: function(xhr, status, error) {
+                console.error('Error deleting comment:', error);
+            }
+        });
+    }); 
+});
+
 </script>
 </body>
 </html>
 
+<!--
+    $('.deleteBtn').click(function() {
+        var commentId = $(this).data('comment-id');
+        var postId = $(this).data('post-id');
+
+        // Send AJAX request to server to delete the comment
+        $.ajax({
+            url: '/deleteComment',
+            method: 'DELETE',
+            data: { postId: postId, commentId: commentId },
+            success: function(response) {
+                // Remove the deleted comment from the UI
+                $(this).closest('.comment').remove();
+            },
+            error: function(xhr, status, error) {
+                console.error('Error deleting comment:', error);
+            }
+        });
+        
+        -->
