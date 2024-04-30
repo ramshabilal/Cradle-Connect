@@ -101,6 +101,10 @@ const goalSchema = new mongoose.Schema({
     //ref: 'User',
     type: String, //to be removed
     required: true
+  },
+  date: {
+    type: Date,
+    default: Date.now
   }
 });
 

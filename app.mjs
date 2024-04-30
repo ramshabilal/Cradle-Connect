@@ -304,9 +304,9 @@ app.get("/myPosts", isAuthenticated, async (req, res) => {
 }
 });
 
-app.post('/myPosts/delete/:eventId', isAuthenticated, async (req, res) => {
+app.post('/myPosts/delete/:postId', isAuthenticated, async (req, res) => {
   const userId = req.user._id;
-  const postId = req.params.eventId;
+  const postId = req.params.postId;
 
   try {
       // Query the Event collection to find the specific event
@@ -376,27 +376,48 @@ app.post('/signin', passport.authenticate('local', {
 }));
     
 app.get("/goals", isAuthenticated, async (req, res) => {
+
+  const today = new Date();
+  const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0); // Start of the day
+  const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59); // End of the day
+  console.log("startOfDay", startOfDay, "endOfDay", endOfDay); 
+
     // Fetch all goals of the user
-    const userID = "userid"; //remove
-    const userGoals = await Goal.find({ user: userID }); //change to req.user._id
+    const userID = req.user._id; 
+    //const userGoals = await Goal.find({ user: userID }); //change to req.user._id
+
+    const userGoals = await Goal.find({
+      //date: { $gte: startOfDay, $lte: endOfDay }, // Filter by createdAt field within today
+      user: req.user._id // Assuming userId is used to filter user-specific goals
+    });
+
     // console.log("goals", userGoals); 
     res.render('goals', {userGoals: userGoals});
 });
 
 app.post("/goals", isAuthenticated, async (req, res) => {
     try {
+      const today = new Date();
+      const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0); // Start of the day
+      const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59); // End of the day
+      console.log("startOfDay", startOfDay, "endOfDay", endOfDay); 
         // Parse the form data
         const { goalContent } = req.body;
 
-        // remove 
-        const userID = "userid";
+        const userID = req.user._id;
 
         await Goal.create({
             content: goalContent,
             user: userID, //remove and change to req.user._id
         });
 
-        const userGoals = await Goal.find({ user: userID }); //change to req.user._id
+        //const userGoals = await Goal.find({ user: userID }); //change to req.user._id
+        const userGoals = await Goal.find({
+          //date: { $gte: startOfDay, $lte: endOfDay }, // Filter by createdAt field within today
+          user: req.user._id // Assuming userId is used to filter user-specific goals
+        });
+
+        console.log("goals", userGoals);
         // Render the goals template with the user's goals
         res.render('goals', { userGoals: userGoals });
     } catch (error) {
@@ -406,6 +427,62 @@ app.post("/goals", isAuthenticated, async (req, res) => {
     }
 });
 
+app.post('/goals/delete/:goalId', isAuthenticated, async (req, res) => {
+
+const userId = req.user._id;
+const goalId = req.params.goalId;
+console.log("goalId: ", goalId, "userId: ", userId); 
+  try {
+      // Query the Event collection to find the specific event
+      const goal = await Goal.findOne({ _id: goalId }).exec();
+      console.log("goal: ", goal);
+      if (!goal) {
+          return res.status(404).send('Goal not found or you do not have permission to delete it.');
+      }
+
+      // Delete the event
+      await Goal.deleteOne({ _id: goalId }).exec();
+
+      // Redirect back to the myevents route or another appropriate route
+      res.redirect('/goals');
+  } catch (error) {
+      console.error('Error deleting goal:', error);
+      res.status(500).json({ error: 'An error occurred while deleting the goal' });
+  }
+});
+
+
+app.post('/updateGoalStatus', isAuthenticated, async (req, res) => {
+  const { goalId } = req.body;
+  try {
+    const goal = await Goal.findById(goalId);
+    if (!goal) {
+      return res.status(404).json({ error: 'Goal not found' });
+    }
+    console.log("goal: ", goal);
+    goal.completed = !goal.completed;
+    await goal.save();
+    console.log("Updated goal: ", goal);
+    res.json({ success: true, completed: goal.completed });
+  }
+  catch (error) {
+    console.error('Error updating goal status:', error);
+    res.status(500).json({ error: 'An error occurred while updating the goal status' });
+  }
+  
+});
+
+
+app.get('/allGoals', isAuthenticated, async (req, res) => {
+  try {
+    const allGoals = await Goal.find({ user: req.user._id });
+    console.log("allGoals: ", allGoals);
+    res.render('allGoals', { allGoals }); 
+  } catch (error) {
+    console.error('Error fetching all goals:', error);
+    res.status(500).json({ error: 'An error occurred while fetching all goals' });
+  }
+});
 
 // Route to handle comment submission
 app.post('/submitComment', isAuthenticated, async (req, res) => {
