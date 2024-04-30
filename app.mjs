@@ -14,10 +14,6 @@ import hbs from 'hbs';
 import Handlebars from 'handlebars';
 import moment from 'moment';
 
-// Handlebars.registerHelper('eq', function(a, b, options) {
-//     return a === b ? options.fn(this) : options.inverse(this);
-// });
-
 const app = express();
 
 const sessionOptions = {
@@ -41,6 +37,10 @@ app.use(express.urlencoded({ extended: false }));
 // Register Handlebars helper for date formatting
 hbs.registerHelper('formatDate', function(date) {
   return moment(date).format('MMMM Do YYYY, h:mm a');
+});
+
+hbs.registerHelper('eq', function(a, b) {
+    return a === b;
 });
 
 app.get("/signup", (req, res) => {
@@ -201,6 +201,20 @@ app.post('/addDiary', isAuthenticated, async (req, res) => {
     res.redirect('/diary');
 });
 
+// Define a route to handle the delete request
+app.post('/deleteDiary', async (req, res) => {
+  const blogId = req.body.blogId;
+
+  try {
+      // Find the blog by ID and remove it from the database
+      await Blog.findOneAndDelete({ _id: blogId });
+      res.redirect('/diary');
+  } catch (error) {
+      console.error('Error deleting blog:', error);
+      res.status(500).send('Error deleting blog');
+  }
+});
+
 app.get("/community", isAuthenticated, async (req, res) => {
   try {
     const allPosts = await Post.find({});
@@ -345,6 +359,16 @@ app.post('/submitComment', isAuthenticated, async (req, res) => {
       console.error('Error submitting comment:', error);
       res.status(500).send('Internal Server Error');
   }
+});
+
+app.get('/logout', (req, res) => {
+  req.logout(err => {
+    if (err) {
+      console.error(err);
+      return res.redirect('/');
+    }
+    res.redirect('/');
+  });
 });
 
 // Route to handle comment deletion
