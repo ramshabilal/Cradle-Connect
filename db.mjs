@@ -44,6 +44,10 @@ const postSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
+  userName:{
+    type: String,
+    required:true
+  },
   date: {
     type: Date,
     default: Date.now
@@ -54,7 +58,8 @@ const postSchema = new mongoose.Schema({
     // ref: 'Reply'
     content: String,
     user: String,
-    userName: String
+    userName: String,
+    date: Date
   }]
 });
 
