@@ -125,7 +125,7 @@
                 <div class="clearfix"></div>
 
                 <div class="col-lg-5 col-12">
-                    <img src = "images/goals.webp" class="img-fluid" alt="goals">
+                    
                 </div>
 
                 <div class="col-lg-6 col-12 m-auto">
@@ -134,43 +134,17 @@
                     <div class="mt-4">
                         
                         <div class="list-group" id="goalList">
-                            <div style="display:flex; justify-content:right;padding-bottom:10px;font-size:14px;" id="currentDate"></div>
-                            <br>
-                            <h4 style="display:flex; justify-content:center;">My Goals</h4>
-                            <br>
-                            {{#each userGoals}}
-                                <div class="goal-item">
-                                    {{!-- <input type="checkbox" {{#if this.completed}}checked{{/if}}> 
-                                    <span class="goal-content">{{this.content}}</span>
-                                    --}}
-                                    
+                            <h4>All My Goals</h4>
+                            {{#each allGoals}}
                                     <!-- HTML code for the goal item with checkbox -->
                                 <div class="goal-item" data-goal-id="{{this._id}}">
                                     <input type="checkbox" {{#if this.completed}}checked{{/if}} onchange="updateGoalStatus('{{this._id}}')">
                                     <span class="goal-content {{#if this.completed}}completed{{/if}}">{{this.content}}</span>
-                                   
-                                </div>
-
-
-
-                                    </button>
-                                    <form method="POST" action="/goals/delete/{{this._id}}">
-                                        <button class="delete-btn" type="submit">
-                                        <i class="bi bi-trash"></i></button>
-                                    </form>
+                            
                                 </div>
                             {{/each}}
                         </div>
                     </div>
-                    <!-- Form to add new goal -->
-                    <form method="POST" action="/goals" id="addGoalForm">
-                        <div class="mb-3" style="padding-top:10px;">
-                            <label for="goalContent" class="form-label">Goal</label>
-                            <input type="text" class="form-control" id="goalContent" name="goalContent" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add Goal</button>
-                        <button class="btn btn-primary"> <a style="color:white" href="/allGoals">-> View all my goals</a></button>
-                    </form>
                 </div>
             </div>
         </div>
@@ -218,16 +192,6 @@ function updateGoalStatus(goalId) {
         }
     });
 }
-
-// Get today's date
-        const today = new Date();
-
-        // Format the date as desired (e.g., "April 25, 2024")
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const formattedDate = today.toLocaleDateString('en-US', options);
-
-        // Insert the formatted date into the HTML element with id="currentDate"
-        document.getElementById('currentDate').textContent = formattedDate;
 
 </script>
 </body>
