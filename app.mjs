@@ -217,16 +217,33 @@ app.post('/deleteDiary', async (req, res) => {
 
 app.get("/community", isAuthenticated, async (req, res) => {
   try {
-    const allPosts = await Post.find({});
-    console.log("Posts: ", allPosts);
+    let allPosts = await Post.find({});
+    //console.log("Posts: ", allPosts);
     if (allPosts.length === 0) {
         return res.render('community', { allPosts });
     }
     
     allPosts.sort((a, b) => {
         return b.date - a.date;
-    });
-    
+      });
+  
+    // Sorting functionality
+    const sortBy = req.query.sortOrder;
+    // console.log("sortBy: ", sortBy);
+    if (sortBy === 'asc') {
+        allPosts.sort((a, b) => a.date - b.date); // Sorting in ascending order
+    } else if (sortBy === 'desc') {
+        allPosts.sort((a, b) => b.date - a.date); // Sorting in descending order
+    }
+
+    // Search functionality
+    const searchTerm = req.query.searchQuery;
+    // console.log("searchTerm: ", searchTerm);
+    if (searchTerm) {
+        allPosts = allPosts.filter(post =>
+            post.content.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    } 
     res.render('community', { allPosts });
 } catch (error) {
     console.error(error);
@@ -243,11 +260,71 @@ app.post("/addPost", isAuthenticated, async (req, res) =>{
   const newPost = new Post({
     content: message,
     user: req.user._id,
+    userName: req.user.name
 });
 
 await newPost.save();
 console.log("Saved");
 res.redirect('/community');
+});
+
+app.get("/myPosts", isAuthenticated, async (req, res) => {
+  try {
+    let allPosts = await Post.find({user: req.user._id});
+  
+    if (allPosts.length === 0) {
+        return res.render('community', { allPosts });
+    }
+    
+    allPosts.sort((a, b) => {
+        return b.date - a.date;
+      });
+  
+    // Sorting functionality
+    const sortBy = req.query.sortOrder;
+    // console.log("sortBy: ", sortBy);
+    if (sortBy === 'asc') {
+        allPosts.sort((a, b) => a.date - b.date); // Sorting in ascending order
+    } else if (sortBy === 'desc') {
+        allPosts.sort((a, b) => b.date - a.date); // Sorting in descending order
+    }
+
+    // Search functionality
+    const searchTerm = req.query.searchQuery;
+    // console.log("searchTerm: ", searchTerm);
+    if (searchTerm) {
+        allPosts = allPosts.filter(post =>
+            post.content.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    } 
+    res.render('myPosts', { allPosts });
+} catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+}
+});
+
+app.post('/myPosts/delete/:eventId', isAuthenticated, async (req, res) => {
+  const userId = req.user._id;
+  const postId = req.params.eventId;
+
+  try {
+      // Query the Event collection to find the specific event
+      const post = await Post.findOne({ _id: postId, user: userId }).exec();
+
+      if (!post) {
+          return res.status(404).send('Post not found or you do not have permission to delete it.');
+      }
+
+      // Delete the event
+      await Post.deleteOne({ _id: postId, user: userId }).exec();
+
+      // Redirect back to the myevents route or another appropriate route
+      res.redirect('/myPosts');
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+  }
 });
 
 
@@ -267,7 +344,8 @@ app.post("/addReply", isAuthenticated, async (req, res) => {
       // Create a new reply object
       const newReply = {
           content: content,
-          userName: userName // Save the user's name as a string
+          userName: userName, // Save the user's name as a string
+          date: Date.now()
       };
 
       // Push the new reply to the post's replies array

@@ -1,4 +1,4 @@
-<html>
+<DOCTYPE html>
     <head>
         <style>
             .commentsContainer {
@@ -8,17 +8,8 @@
                 margin-bottom: 20px;
                 
                 }
-
-                .comment {
-                margin-bottom: 10px;
-                padding: 5px;
-                background-color: #fff;
-                border: 1px solid #ddd;
-                }
-
         </style>
     </head>
-    <body>
 <nav class="navbar navbar-expand-lg navbar2">
     <div class="container">
         <a class="navbar-brand click-scroll" href="/">
@@ -77,29 +68,27 @@
         </div>
     </div>
 </nav>
-<main>
+<body>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <section class="hero-section hero-section2 d-flex justify-content-center align-items-center" id="section_1">
 <div class="container">
     <div class="row">
         <div class="col-md-8 post-box">
             <div class="col-12 text-center">
-                <h2 class="mb-4">Community Forum</h1>
-                <a href="/addPost" class="btn custom-btn custom-btn2 mt-3 mt-lg-4">+ Add New Post</a>
-                <a href="/myPosts" class="btn custom-btn custom-btn2 mt-3 mt-lg-4">-> My Posts</a>
+                <h2 class="mb-4">My Posts</h1>
             </div>
             
             <!-- A search form -->
         <div class = "search-bar">
 
-            <form action="/community" method="get">
+            <form action="/myPosts" method="get">
                 <label for="search">Search:</label>
                 <input type="text" id="search" name="searchQuery" placeholder="Enter post title or keyword">
                 <button type="submit">Search</button>
             </form>
 
             <!-- A sort dropdown -->
-            <form action="/community" method="get">
+            <form action="/myPosts" method="get">
                 <label for="sort">Sort by date:</label>
                 <select id="sort" name="sortOrder">
                     <option value="asc">Ascending</option>
@@ -109,6 +98,7 @@
             </form>
         </div>
 
+        <!-- User's Posts -->
             <div class="col-lg-8 col-12 mt-3 mx-auto">
                 {{#if allPosts.length}}
                     {{#each allPosts}}
@@ -123,25 +113,18 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Comments -->
                         <div class="commentsContainer" id="commentsContainer-{{this._id}}">
                             <h6>Comments</h6>
                             {{#each this.replies}}
                                 <span>{{this.userName}}:  {{this.content}}</span> <span style="color:grey; font-size: 10px;" >{{formatDate this.date}}</span>
                                </br>
-                                {{!-- <button class="deleteBtn" data-comment-id="{{this._id}}">Delete</button> --}}
                             {{/each}}
-                        
                         </div>
-                        <div>
-                        <form class="commentForm" id="commentForm-{{this._id}}" data-post-id="{{this._id}}">
-                                <input type="text" class="commentInput" name="comment" placeholder="Add a comment">
-                                <button type="submit" class="submitBtn">Submit</button>
+                        <!-- Delete button with a form -->
+                        <form method="POST" action="/myPosts/delete/{{this._id}}">
+                            <button type="submit">Delete Event</button>
                         </form>
-
-                        {{!-- <button id="toggleCommentsBtn">Show More</button> --}}
-                        </div>
+                        <br>
                     {{/each}}
                 {{else}}
                     <div class="custom-block custom-block-topics-listing bg-white shadow-lg mb-5">
@@ -151,15 +134,19 @@
                                 <div class="custom-block-topics-listing-info d-flex">
                                     <div>
                                         <h5 class="mb-2">No Entries Found</h5>
-
-                                        <p class="mb-0">You still haven't added anything to your diary yet. Click on the button above to start your journaling journey.</p>
-                                        </p>
+                                        
+                                        <p class="mb-0">You haven't posted anything.</p>
+                                        
+                                        <button href="/community" class="btn btn-primary">Back to Community</button>
+                                        
 
                                     </div>
-                                </div>
                             </div>
+                        </div>
                     </div>
                 {{/if}}
+
+                
             </div> 
               
             </div>
@@ -167,7 +154,10 @@
     </div>
 </div>
 </section>
-</main>
+</body>
+
+
+
  <!-- JavaScript to handle form submission and AJAX request -->
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -197,7 +187,7 @@
 
     // Function to sort posts by date
     function sortPosts(order) {
-        const url = `/community?sortBy=${order}`;
+        const url = `/myPosts?sortBy=${order}`;
         console.log(url);
         window.location.href = url;
     }
@@ -205,7 +195,7 @@
     // Function to search posts by title or content
     function searchPosts() {
         const searchTerm = document.getElementById('searchInput').value;
-        const url = `/community?search=${searchTerm}`;
+        const url = `/myPosts?search=${searchTerm}`;
         window.location.href = url;
     }
 
@@ -245,24 +235,3 @@
 </script>
 </body>
 </html>
-
-<!--
-    $('.deleteBtn').click(function() {
-        var commentId = $(this).data('comment-id');
-        var postId = $(this).data('post-id');
-
-        // Send AJAX request to server to delete the comment
-        $.ajax({
-            url: '/deleteComment',
-            method: 'DELETE',
-            data: { postId: postId, commentId: commentId },
-            success: function(response) {
-                // Remove the deleted comment from the UI
-                $(this).closest('.comment').remove();
-            },
-            error: function(xhr, status, error) {
-                console.error('Error deleting comment:', error);
-            }
-        });
-        
-        -->
