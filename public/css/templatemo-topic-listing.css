@@ -518,6 +518,14 @@ strong {
   padding-bottom: 150px;
 }
 
+.hero-section2 {
+  background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
+  position: relative;
+  overflow: hidden;
+  padding-top: 75px;
+  padding-bottom: 150px;
+}
+
 .hero-section .input-group {
   background-color: var(--white-color);
   border-radius: var(--border-radius-large);
@@ -1314,4 +1322,15 @@ img.profile-photo-sm {
 
 .custom-btn3 {
   width: 100%; /* Make the button span the full width */
+}
+
+.pad-below{
+  padding-bottom: 150px;
+}
+
+.landingImage{
+  height: 200px;
+  width: 200px;
+  margin-bottom: 50px;
+
 }
