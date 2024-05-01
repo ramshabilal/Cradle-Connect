@@ -202,9 +202,6 @@ app.post('/addDiary', isAuthenticated, async (req, res) => {
     } catch (error) {
       return res.render("addDiary", { error: 'Please Select a Mood by Clicking on the Emojis!' })
     }
-    
-
-    
 });
 
 // Define a route to handle the delete request
