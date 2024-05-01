@@ -189,16 +189,22 @@ app.get("/addDiary", isAuthenticated, (req, res) => {
 
 app.post('/addDiary', isAuthenticated, async (req, res) => {
     let { date, summary, thoughts, mood } = req.body;
-    const newEntry = new Blog({
+    try {
+      const newEntry = new Blog({
         thoughts: thoughts,
         summary: summary,
         user: req.user._id,
         date: date,
         mood: mood
-    });
+      });
+      await newEntry.save();
+      res.redirect('/diary');
+    } catch (error) {
+      return res.render("addDiary", { error: 'Please Select a Mood by Clicking on the Emojis!' })
+    }
+    
 
-    await newEntry.save();
-    res.redirect('/diary');
+    
 });
 
 // Define a route to handle the delete request

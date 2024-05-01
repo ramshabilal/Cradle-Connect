@@ -53,7 +53,6 @@
                     <h2 class="mb-4">Sign Up</h2>
                     {{!-- <a href="/addDiary" class="btn custom-btn custom-btn2 mt-3 mt-lg-4">Click Here to Add Today's Entry</a> --}}
             </div>
-
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 mx-auto">
@@ -64,19 +63,19 @@
                             <form class="custom-form" action="/signup" method="POST">
                                 <div class="form-group">
                                     <label for="name">Full Name</label>
-                                    <input type="text" id="name" class="form-control" name="name">
+                                    <input type="text" id="name" class="form-control" name="name" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input type="text" id="email" class="form-control" name="email">
+                                    <input type="email" id="email" class="form-control" name="email" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password</label>
-                                    <input type="text" id="password" class="form-control" name="password">
+                                    <input type="text" id="password" class="form-control" name="password" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="retypePassword">Retype Password</label>
-                                    <input type="text" id="retypePassword" class="form-control" name="retypePassword">
+                                    <input type="text" id="retypePassword" class="form-control" name="retypePassword" required>
                                 </div>
                                 <button type="submit" class="custom-btn">Sign Up</button>
                             </form>
@@ -84,7 +83,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </section>

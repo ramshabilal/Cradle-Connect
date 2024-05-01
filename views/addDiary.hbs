@@ -74,15 +74,15 @@
                             <form class="custom-form" action="/addDiary" method="POST">
                                 <div class="form-group">
                                     <label for="date">Date:</label>
-                                    <input type="date" id="date" class="form-control" name="date">
+                                    <input type="date" id="date" class="form-control" name="date" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="summary">One Line Summary</label>
-                                    <input type="text" id="summary" class="form-control" name="summary">
+                                    <input type="text" id="summary" class="form-control" name="summary" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="thoughts">Thoughts</label>
-                                    <input type="text" id="thoughts" class="form-control" name="thoughts">
+                                    <input type="text" id="thoughts" class="form-control" name="thoughts" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="mood">Mood:</label>
@@ -92,7 +92,10 @@
                                     <button type="button" class="mood-btn" data-mood="angry">😠</button>
                                     <button type="button" class="mood-btn" data-mood="calm">😌</button>
                                     </div>
-                                    <input type="hidden" id="mood" name="mood">
+                                    <input type="hidden" id="mood" name="mood" required>
+                                    {{#if error}}
+                                        <p style="color: red;">{{error}}</p>
+                                    {{/if}}
                                 </div>
                                 <button type="submit" class="custom-btn">Submit</button>
                             </form>
