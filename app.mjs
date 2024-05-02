@@ -156,6 +156,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/articles", isAuthenticated, (req, res) => {
+  console.log("Articles page");
     res.render('articles');
 });
 
