@@ -1,58 +1,7 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <style>
-        .list-group {
-            margin-top: 20px;
-            padding: 30px;
-            background-color: aliceblue;
-            border-radius: 10px;
-            width: 70%;
-        }
-        .list-item {
-            background-color: #f9f9f9;
-            border: 1px solid #ccc;
-            padding: 10px;
-            
-            font-family:'Times New Roman', Times, serif;
-        }
-        .list-item:hover {
-            background-color: #f0f0f0;
-        }
-        .goal-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 20px;
-            text-ita
-        }
-
-        .goal-content {
-            flex-grow: 1;
-            padding: 10px; 
-            font-family: "Times New Roman", Times, serif;" 
-        }
-
-        .goal-content:hover {
-            background-color: #f0f0f0;
-        }
-
-        .delete-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        .delete-btn i {
-            color: rgb(39, 1, 1);
-        }
-
-        .delete-btn:hover i {
-            color: rgb(240, 11, 11);
-        }
-
-        .completed {
-        text-decoration: line-through; /* Add strikethrough effect */
-        color: #888; /* Change color to gray for completed goals */
-        }
         body{
             background-color: rgb(249, 247, 247);
             background-image: none;
@@ -64,10 +13,8 @@
             width: 400px;
             background-color: rgb(5, 5, 5);
         }
-
     </style>
 </head>
-<body>
 <nav class="navbar navbar-expand-lg navbar2">
     <div class="container">
         <a class="navbar-brand click-scroll" href="/">
@@ -126,85 +73,37 @@
         </div>
     </div>
 </nav>
-<main>
+ 
+<!-- Include Chart.js library -->
+<body>
     <section class="goals-section section-padding" id="section_goals">
         <div class="container">
             <div class="row">
-
                 <div class="clearfix"></div>
-
-                <div class="col-lg-5 col-12">
-                    <div class="content-container" style="width:100%">
-                        <h4>Number of Goals Completed per Day</h4>
-                        <canvas id="goalChart" width="400" height="200"></canvas>
-                    </div>
-                </div>
-
-                <div class="col-lg-6 col-12 m-auto">
-                    <!-- Checklist for goals -->
-                    <div class="mt-4">
-                        
-                        <div class="list-group" id="goalList">
-                            <h4>All My Goals</h4>
-                            {{#each allGoals}}
-                                    <!-- HTML code for the goal item with checkbox -->
-                                <div class="goal-item" data-goal-id="{{this._id}}">
-                                    <input type="checkbox" {{#if this.completed}}checked{{/if}} onchange="updateGoalStatus('{{this._id}}')">
-                                    <span class="goal-content {{#if this.completed}}completed{{/if}}">{{this.content}}</span>
-                            
-                                </div>
-                            {{/each}}
+                    <div class="col-lg-5 col-12">
+                        <div class="content-container" style="width:50%">
+                            <h2>Goals</h2>
+                            <h4>Number of Goals Completed per Day</h4>
+                            <canvas id="goalChart" width="200" height="100"></canvas>
                         </div>
+                    </div>
+                    <div class="col-lg-6 col-12 m-auto">
+                        <h1>Hellow</h1>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-</main>
-<footer class="site-footer section-padding">
-    <div class="container">
-        <div class="row">
-
-        </div>
+    <!-- HTML Canvas for the Chart -->
+   
+   <div class="col-lg-5 col-12">
+                      
+        
     </div>
-</footer>
 
-<script>
-// JavaScript code to handle checkbox change event
-function updateGoalStatus(goalId) {
-    // Update UI
-    const goalItem = $(`.goal-item[data-goal-id="${goalId}"]`);
-    const goalContent = goalItem.find('.goal-content');
-    const isChecked = goalItem.find('input').prop('checked');
-    if (isChecked) {
-        goalContent.addClass('completed');
-    } else {
-        goalContent.removeClass('completed');
-    }
+    
+</body>
 
-    // Update database
-    $.ajax({
-        url: '/updateGoalStatus',
-        method: 'POST',
-        data: { goalId: goalId},
-        success: function(response) {
-            if (response.success) {
-                if (response.completed) {
-                    goalContent.addClass('completed');
-                } else {
-                    goalContent.removeClass('completed');
-                }
-            } else {
-                console.error('Error updating goal status:', response.error);
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error('Error updating goal status:', error);
-        }
-    });
-}
-
-</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -223,12 +122,10 @@ function updateGoalStatus(goalId) {
     let goalsCompleted = [];
     //console.log("goals", goals);
 
-    {{#each allGoals}}
-        {{#if this.completed}}
-        goalsCompleted.push({
-            date: '{{this.date}}'
-        });
-        {{/if}}
+    {{#each goals}}
+    goalsCompleted.push({
+        date: '{{this.date}}'
+    });
     {{/each}}
 
 
@@ -311,6 +208,4 @@ function updateGoalStatus(goalId) {
 });
 
 </script>
-</body>
-
-
+</html>
