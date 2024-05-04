@@ -10,16 +10,28 @@ https://templatemo.com/tm-590-topic-listing
   CUSTOM PROPERTIES ( VARIABLES )             
 -----------------------------------------*/
 :root {
-  --white-color:                  #ffffff;
-  --primary-color:                #81bde0; /* #13547a */
-  --secondary-color:              #e4f4f4d8; /*80d0c7 */
+  /* --white-color:                  #ffffff;
+  --primary-color:                #13547a;   
+  --secondary-color:              #80d0c7;
   --section-bg-color:             #f0f8ff;
   --custom-btn-bg-color:          #80d0c7;
   --custom-btn-bg-hover-color:    #13547a;
   --dark-color:                   #000000;
   --p-color:                      #717275;
   --border-color:                 #7fffd4;
-  --link-hover-color:             #13547a;
+  --link-hover-color:             #13547a; */
+
+    --white-color:                  #ffffff;
+    --primary-color:                #4faadc; /* Brighter blue */
+    --secondary-color:              #e0f9f8; /* Light teal */
+    --section-bg-color:             #f5fbff; /* Light blue */
+    --custom-btn-bg-color:          #7ad0c3; /* Light turquoise */
+    --custom-btn-bg-hover-color:    #158ca3; /* Darker turquoise */
+    --dark-color:                   #333333; /* Dark grey for better readability */
+    --p-color:                      #616161; /* Slightly darker grey */
+    --border-color:                 #4cd5c0; /* Light turquoise border */
+    --link-hover-color:             #158ca3; /* Hover color similar to button hover */
+  
 
   --body-font-family:             'Open Sans', sans-serif;
   --title-font-family:            'Montserrat', sans-serif;
@@ -511,7 +523,8 @@ strong {
   HERO        
 -----------------------------------------*/
 .hero-section {
-  background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
+  /* background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%); */
+  background-image: linear-gradient(15deg, #4faadc 0%, #e0f9f8 100%);
   position: relative;
   overflow: hidden;
   padding-top: 150px;
@@ -519,7 +532,8 @@ strong {
 }
 
 .hero-section2 {
-  background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
+  /* background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%); */
+  background-image: linear-gradient(15deg, #4faadc 0%, #e0f9f8 100%);
   position: relative;
   overflow: hidden;
   padding-top: 75px;
