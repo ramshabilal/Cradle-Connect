@@ -156,6 +156,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/articles", isAuthenticated, (req, res) => {
+  console.log("Articles page");
     res.render('articles');
 });
 
@@ -390,7 +391,7 @@ app.get("/goals", isAuthenticated, async (req, res) => {
     //const userGoals = await Goal.find({ user: userID }); //change to req.user._id
 
     const userGoals = await Goal.find({
-      //date: { $gte: startOfDay, $lte: endOfDay }, // Filter by createdAt field within today
+      date: { $gte: startOfDay, $lte: endOfDay }, // Filter by createdAt field within today
       user: req.user._id // Assuming userId is used to filter user-specific goals
     });
 
@@ -416,7 +417,7 @@ app.post("/goals", isAuthenticated, async (req, res) => {
 
         //const userGoals = await Goal.find({ user: userID }); //change to req.user._id
         const userGoals = await Goal.find({
-          //date: { $gte: startOfDay, $lte: endOfDay }, // Filter by createdAt field within today
+          date: { $gte: startOfDay, $lte: endOfDay }, // Filter by createdAt field within today
           user: req.user._id // Assuming userId is used to filter user-specific goals
         });
 
@@ -478,7 +479,7 @@ app.post('/updateGoalStatus', isAuthenticated, async (req, res) => {
 
 app.get('/allGoals', isAuthenticated, async (req, res) => {
   try {
-    const allGoals = await Goal.find({ user: req.user._id });
+    const allGoals = await Goal.find({ user: req.user._id }).lean();
     console.log("allGoals: ", allGoals);
     res.render('allGoals', { allGoals }); 
   } catch (error) {
@@ -529,29 +530,16 @@ app.get('/logout', (req, res) => {
   });
 });
 
-// Route to handle comment deletion
-// app.delete('/deleteComment', isAuthenticated, async (req, res) => {
-//   try {
-//       const { postId, commentId } = req.body;
-//       console.log("POST ID: ", postId);
-//       // Find the post by ID and remove the comment from its replies array
-//       const post = await Post.findByIdAndUpdate(postId, { $pull: { replies: commentId } }, { new: true });
-//       console.log("POST IS: ", post);
-//       // Check if the post exists
-//       if (!post) {
-//           return res.status(404).json({ error: 'Post not found' });
-//       }
 
-//       // Delete the comment from the database
-//       await Reply.findByIdAndDelete(commentId);
-
-//       res.status(200).json({ message: 'Comment deleted successfully' });
-//   } catch (error) {
-//       console.error('Error deleting comment:', error);
-//       res.status(500).send('Internal Server Error');
-//   }
-// });
-
+app.get('/goals/dailyGoals', isAuthenticated, async (req, res) => {
+  try{
+  const goals = await Goal.find({user: req.user._id}).lean();
+  console.log("dailyGoals: ", goals);
+  res.render('dailyGoals', { goals });
+  } catch (error) {
+      console.log(error); 
+  }
+});
 
 
 
