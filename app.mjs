@@ -367,7 +367,7 @@ app.post("/addReply", isAuthenticated, async (req, res) => {
 app.get("/signin", (req, res) => {
     const messages = req.flash();
     if (messages.error !== undefined) {
-        messages.error = messages.error + '. Enter valid username and password.';
+        messages.error = messages.error + '. Enter valid email and password.';
     }
     res.render('signin', { messages });
 });
