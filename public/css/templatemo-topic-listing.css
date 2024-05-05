@@ -1264,6 +1264,9 @@ blockquote {
   margin-top: 20px;
   margin-bottom: 10px;
 }
+.comment2 {
+  overflow-wrap: break-word;
+}
 
 .comment-content2 {
   margin-bottom: 0rem;
@@ -1274,6 +1277,14 @@ blockquote {
   margin-bottom: 0rem;
   margin-top: 0rem;
 }
+
+.comment-box {
+  border: 1px solid #ccc;
+  /* padding: 5px; */
+  margin-bottom: 20px;
+  /* background-color: #f9f9f9; */
+}
+
 
 .post-content {
   margin-top: 20px;
@@ -1313,6 +1324,10 @@ img.profile-photo-sm {
 .post-box2 {
   width: 100%;
   margin-bottom: 50px;
+  border: 1px solid #ccc; /* Border color */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow */
+  padding: 20px; /* Padding inside the box */
 }
 
 .post-box p {

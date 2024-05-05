@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand click-scroll" href="/">
-            <i class="bi-back"></i>
+            <i class="bi-gender-ambiguous"></i>
             <span>CradleConnect</span>
         </a>
 
@@ -49,15 +49,15 @@
     <div class="container">
         <div class="row">
 
-            <div class="col-12 text-center">
-                    <h2 class="mb-4">Sign In</h2>
-                    {{!-- <a href="/addDiary" class="btn custom-btn custom-btn2 mt-3 mt-lg-4">Click Here to Add Today's Entry</a> --}}
-            </div>
 
             <div class="container pad-below">
                 <div class="row">
                     <div class="col-md-6 mx-auto">
                         <div class="post-box2">
+                            <div class="col-12 text-center">
+                                    <h2 class="mb-4">Sign In</h2>
+                                    {{!-- <a href="/addDiary" class="btn custom-btn custom-btn2 mt-3 mt-lg-4">Click Here to Add Today's Entry</a> --}}
+                            </div>
                             {{#if messages.error}}
                                 <p style="color: red;">{{messages.error}}</p>
                             {{/if}}

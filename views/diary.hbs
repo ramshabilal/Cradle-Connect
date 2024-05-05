@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg">
     <div class="container">
         <a class="navbar-brand click-scroll" href="/">
-            <i class="bi-back"></i>
+            <i class="bi-gender-ambiguous"></i>
             <span>CradleConnect</span>
         </a>
 
@@ -79,14 +79,14 @@
                     {{#each allEntries}}
                         <div class="custom-block custom-block-topics-listing bg-white shadow-lg mb-5">
                             <div class="d-flex">
-                                {{#if (eq this.modd "angry")}}
-                                    <img src="images/topics/undraw_Remote_design_team_re_urdx.png" class="custom-block-image img-fluid" alt="">
+                                {{#if (eq this.mood "angry")}}
+                                    <img src="images/wangry.png" class="custom-block-image img-fluid" alt="">
                                 {{else if (eq this.mood "happy")}}
-                                    <img src="images/topics/undraw_online_ad_re_ol62.png" class="custom-block-image img-fluid" alt="">
+                                    <img src="images/whappy.png" class="custom-block-image img-fluid" alt="">
                                 {{else if (eq this.mood "sad")}}
-                                    <img src="images/topics/undraw_Podcast_audience_re_4i5q.png" class="custom-block-image img-fluid" alt="">
+                                    <img src="images/wsad.png" class="custom-block-image img-fluid" alt="">
                                 {{else}}
-                                    <img src="images/topics/undraw_happy_music_g6wc.png" class="custom-block-image img-fluid" alt="">
+                                    <img src="images/wcalm" class="custom-block-image img-fluid" alt="">
                                 {{/if}}
 
                                 {{!-- <img src="images/topics/undraw_Remote_design_team_re_urdx.png" class="custom-block-image img-fluid" alt=""> --}}

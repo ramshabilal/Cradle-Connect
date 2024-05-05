@@ -22,7 +22,7 @@
 <nav class="navbar navbar-expand-lg navbar2">
     <div class="container">
         <a class="navbar-brand click-scroll" href="/">
-            <i class="bi-back"></i>
+            <i class="bi-gender-ambiguous"></i>
             <span>CradleConnect</span>
         </a>
 
@@ -136,7 +136,7 @@
                 {{#if allPosts.length}}
                     {{#each allPosts}}
                         <div class="custom-block custom-block-topics-listing bg-white shadow-lg mb-5">
-                            <div class="d-flex">
+                            <div class="d-flex comment-box">
                                 {{!-- {{#if (eq this.modd "angry")}}
                                     <img src="images/topics/undraw_Remote_design_team_re_urdx.png" class="custom-block-image img-fluid" alt="">
                                 {{else if (eq this.mood "happy")}}
@@ -154,8 +154,8 @@
                                     <div>
                                         {{!-- <h5 class="mb-2">[{{formatDate this.date}}] {{this.summary}}</h5> --}}
                                         {{!-- <h5 class="mb-2">{{this.userName}}Posted on: {{formatDate this.date}}</h5> --}}
-                                        <h5 class="mb-2">{{this.userName}}</h5> <p style="color:grey; font-size:12px;">Posted on: {{formatDate this.date}}</p>
-                                        <p class="mb-0">{{this.content}}</p>
+                                        <h5 style="color:black" class="mb-2">{{this.userName}}</h5> <p style="color:grey; font-size:12px;">Posted on: {{formatDate this.date}}</p>
+                                        <p style="color:black" class="mb-0">{{this.content}}</p>
                                         <form method="POST" action="/myPosts/delete/{{this._id}}">
                                             {{!-- <input type="hidden" name="blogId" value="{{this._id}}"> --}}
                                             <button type="submit" class="btn custom-btn mt-3 mt-lg-4">Delete Post</button>
@@ -174,7 +174,7 @@
                             <div class="comments-container" id="commentsContainer-{{this._id}}">
                                 <h6 class="post-comment-title">Comments</h6>
                                 {{#each this.replies}}
-                                <div class="comment">
+                                <div class="comment comment2">
                                     <p class="comment-meta comment-meta2"><span style="color:grey; font-size: 10px;" class="comment-date">{{formatDate this.date}}</span></p>
                                     <p class="comment-content comment-content2" style="color: black; font-size: 0.9em;">{{this.userName}}: {{this.content}}</p>
                                 </div>
