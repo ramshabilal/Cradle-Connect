@@ -181,8 +181,8 @@
                                         <input type="text" class="form-control form-control2 commentInput" name="comment" placeholder="Add a comment">
                                     </div>
                                     <button type="submit" class="btn btn-primary submitBtn">Submit</button>
+                                    <button id="toggleCommentsBtn" class="btn btn-primary submitBtn">Show More</button>
                                 </form>
-                                <button id="toggleCommentsBtn">Show More</button>
                             </div>
                         </div>
                     {{/each}}
@@ -287,7 +287,7 @@
                 $('.commentInput').val('');
             },
             error: function(xhr, status, error) {
-                console.error('Error submitting comment:', error);
+               // console.error('Error submitting comment:', error);
             }
         });
     });
@@ -307,11 +307,11 @@
     }
 
     // Initially hide comments beyond the first 5
-    $('.comment').slice(5).hide();
+    $('.comment').slice(3).hide();
 
     // Event listener for toggle button
     $('#toggleCommentsBtn').click(function() {
-        $('.comment').slice(5).toggle();
+        $('.comment').slice(3).toggle();
         $(this).text(function(i, text) {
             return text === "Show More" ? "Show Less" : "Show More";
         });

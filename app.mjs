@@ -522,7 +522,7 @@ app.post('/submitComment', isAuthenticated, async (req, res) => {
       // Respond with the newly created comment data
       res.json({ comment: newComment.content, userName: newComment.userName });
   } catch (error) {
-      console.error('Error submitting comment:', error);
+      // console.error('Error submitting comment:', error);
       res.status(500).send('Internal Server Error');
   }
 });

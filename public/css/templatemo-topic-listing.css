@@ -552,6 +552,14 @@ strong {
   max-width: 150px;
 }
 
+#toggleCommentsBtn {
+  background-color: var(--primary-color);
+  border: 0;
+  border-radius: var(--border-radius-large) !important;
+  color: var(--white-color);
+  max-width: 150px;
+}
+
 
 /*---------------------------------------
   TOPICS              
