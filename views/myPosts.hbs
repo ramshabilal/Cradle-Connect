@@ -1,4 +1,4 @@
-<DOCTYPE html>
+<html>
     <head>
         <style>
             .commentsContainer {
@@ -8,8 +8,17 @@
                 margin-bottom: 20px;
                 
                 }
+
+                .comment {
+                margin-bottom: 10px;
+                padding: 5px;
+                background-color: #fff;
+                border: 1px solid #ddd;
+                }
+
         </style>
     </head>
+<body>
 <nav class="navbar navbar-expand-lg navbar2">
     <div class="container">
         <a class="navbar-brand click-scroll" href="/">
@@ -63,43 +72,136 @@
             </ul>
 
             <div class="d-none d-lg-block">
-                <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+                <a href="/logout" class="navbar-icon bi-person smoothscroll"></a>
             </div>
         </div>
     </div>
 </nav>
-<body>
+<main>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-<section class="hero-section hero-section2 d-flex justify-content-center align-items-center" id="section_1">
+<section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
 <div class="container">
     <div class="row">
-        <div class="col-md-8 post-box">
+        {{!-- <div class="col-md-8 post-box"> --}}
             <div class="col-12 text-center">
-                <h2 class="mb-4">My Posts</h1>
+                <h2 class="mb-4">Community Forum</h1>
+                <a href="/addPost" class="btn custom-btn custom-btn2 mt-3 mt-lg-4">+ Add New Post</a>
+                <a href="/community" class="btn custom-btn custom-btn2 mt-3 mt-lg-4">-> All Posts</a>
             </div>
-            
-            <!-- A search form -->
-        <div class = "search-bar">
+            <div class="row justify-content-center mt-4">
+                <div class="col-lg-6 col-12">
+                    <form action="/community" method="get" class="custom-form contact-form" role="form">
+                        <div class="row">
+                            <div class="col-lg-8 col-12">
+                                <div class="form-floating">
+                                    <input type="text" name="searchQuery" id="name" class="form-control" placeholder="Name" required="">
+                                    <label for="name">Enter Keywords to search Posts</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-12">
+                                <button type="submit" class="btn custom-btn custom-btn2 mt-3 mt-lg-0 btn-block">Search</button>
+                            </div>
+                        </div>
+                    </form>
 
-            <form action="/myPosts" method="get">
-                <label for="search">Search:</label>
-                <input type="text" id="search" name="searchQuery" placeholder="Enter post title or keyword">
-                <button type="submit">Search</button>
-            </form>
+                    <form action="/community" method="get" class="custom-form contact-form" role="form">
+                        <div class="row">
+                            <div class="col-lg-8 col-12">
+                                <div class="form-floating">
+                                    <select id="sort" class="form-control" name="sortOrder">
+                                        <option value="asc">Oldest First</option>
+                                        <option value="desc">Newest First</option>
+                                    </select>
+                                    {{!-- <input type="text" name="searchQuery" id="name" class="form-control" placeholder="Name" required=""> --}}
+                                    <label for="name">Sort by Date</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-12">
+                                <button type="submit" class="btn custom-btn custom-btn2 mt-3 mt-lg-0 btn-block">Sort by</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-            <!-- A sort dropdown -->
-            <form action="/myPosts" method="get">
-                <label for="sort">Sort by date:</label>
-                <select id="sort" name="sortOrder">
-                    <option value="asc">Ascending</option>
-                    <option value="desc">Descending</option>
-                </select>
-                <button type="submit">Sort</button>
-            </form>
-        </div>
-
-        <!-- User's Posts -->
             <div class="col-lg-8 col-12 mt-3 mx-auto">
+                {{#if allPosts.length}}
+                    {{#each allPosts}}
+                        <div class="custom-block custom-block-topics-listing bg-white shadow-lg mb-5">
+                            <div class="d-flex">
+                                {{!-- {{#if (eq this.modd "angry")}}
+                                    <img src="images/topics/undraw_Remote_design_team_re_urdx.png" class="custom-block-image img-fluid" alt="">
+                                {{else if (eq this.mood "happy")}}
+                                    <img src="images/topics/undraw_online_ad_re_ol62.png" class="custom-block-image img-fluid" alt="">
+                                {{else if (eq this.mood "sad")}}
+                                    <img src="images/topics/undraw_Podcast_audience_re_4i5q.png" class="custom-block-image img-fluid" alt="">
+                                {{else}}
+                                    <img src="images/topics/undraw_happy_music_g6wc.png" class="custom-block-image img-fluid" alt="">
+                                {{/if}} --}}
+
+                                {{!-- <img src="images/topics/undraw_Remote_design_team_re_urdx.png" class="custom-block-image img-fluid" alt=""> --}}
+
+
+                                <div class="custom-block-topics-listing-info d-flex">
+                                    <div>
+                                        {{!-- <h5 class="mb-2">[{{formatDate this.date}}] {{this.summary}}</h5> --}}
+                                        {{!-- <h5 class="mb-2">{{this.userName}}Posted on: {{formatDate this.date}}</h5> --}}
+                                        <h5 class="mb-2">{{this.userName}}</h5> <p style="color:grey; font-size:12px;">Posted on: {{formatDate this.date}}</p>
+                                        <p class="mb-0">{{this.content}}</p>
+                                        <form method="POST" action="/deleteDiary">
+                                            <input type="hidden" name="blogId" value="{{this._id}}">
+                                            <button type="submit" class="btn custom-btn mt-3 mt-lg-4">Delete</button>
+                                        </form>
+                                        </p>
+
+                                        {{!-- <form method="POST" action="/deleteDiary">
+                                            <input type="hidden" name="blogId" value="{{this._id}}">
+                                            <button type="submit" class="btn custom-btn mt-3 mt-lg-4">Delete</button>
+                                        </form>  --}}
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="comments-container" id="commentsContainer-{{this._id}}">
+                                <h6 class="post-comment-title">Comments</h6>
+                                {{#each this.replies}}
+                                <div class="comment">
+                                    <p class="comment-meta comment-meta2"><span style="color:grey; font-size: 10px;" class="comment-date">{{formatDate this.date}}</span></p>
+                                    <p class="comment-content comment-content2" style="color: black; font-size: 0.9em;">{{this.userName}}: {{this.content}}</p>
+                                </div>
+                                {{/each}}
+                            </div>
+                            <div>
+                                <form class="commentForm" id="commentForm-{{this._id}}" data-post-id="{{this._id}}">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control2 commentInput" name="comment" placeholder="Add a comment">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary submitBtn">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    {{/each}}
+                {{else}}
+                    <div class="custom-block custom-block-topics-listing bg-white shadow-lg mb-5">
+                            <div class="d-flex">
+                                <img src="images/topics/undraw_Remote_design_team_re_urdx.png" class="custom-block-image img-fluid" alt="">
+
+                                <div class="custom-block-topics-listing-info d-flex">
+                                    <div>
+                                        <h5 class="mb-2">No Posts Containing this Keyword Found</h5>
+
+                                        <p class="mb-0">We couldn't find any posts containing the keyword you searched for. Please double-check the spelling or try using different keywords for a more accurate search.</p>
+                                        </p>
+
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                {{/if}}
+            </div>
+
+            {{!-- <div class="col-lg-8 col-12 mt-3 mx-auto">
                 {{#if allPosts.length}}
                     {{#each allPosts}}
                         <div class="custom-block custom-block-topics-listing bg-white shadow-lg mb-5">
@@ -113,18 +215,21 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="commentsContainer" id="commentsContainer-{{this._id}}">
                             <h6>Comments</h6>
                             {{#each this.replies}}
                                 <span>{{this.userName}}:  {{this.content}}</span> <span style="color:grey; font-size: 10px;" >{{formatDate this.date}}</span>
                                </br>
                             {{/each}}
+                        
                         </div>
-                        <!-- Delete button with a form -->
-                        <form method="POST" action="/myPosts/delete/{{this._id}}">
-                            <button type="submit">Delete Event</button>
+                        <div>
+                        <form class="commentForm" id="commentForm-{{this._id}}" data-post-id="{{this._id}}">
+                                <input type="text" class="commentInput" name="comment" placeholder="Add a comment">
+                                <button type="submit" class="submitBtn">Submit</button>
                         </form>
-                        <br>
+                        </div>
                     {{/each}}
                 {{else}}
                     <div class="custom-block custom-block-topics-listing bg-white shadow-lg mb-5">
@@ -134,32 +239,25 @@
                                 <div class="custom-block-topics-listing-info d-flex">
                                     <div>
                                         <h5 class="mb-2">No Entries Found</h5>
-                                        
-                                        <p class="mb-0">You haven't posted anything.</p>
-                                        
-                                        <button href="/community" class="btn btn-primary">Back to Community</button>
-                                        
+
+                                        <p class="mb-0">You still haven't added anything to your diary yet. Click on the button above to start your journaling journey.</p>
+                                        </p>
 
                                     </div>
+                                </div>
                             </div>
-                        </div>
                     </div>
                 {{/if}}
-
-                
-            </div> 
+            </div>  --}}
               
             </div>
-        </div>
+        {{!-- </div> --}}
     </div>
 </div>
 </section>
-</body>
-
-
-
+</main>
  <!-- JavaScript to handle form submission and AJAX request -->
- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
     $('.commentForm').submit(function(event) {
@@ -176,8 +274,13 @@
             data: { comment: commentContent, postId: postId },
             success: function(response) {
                 // Upon successful submission, append the new comment to the UI
-                var newComment = '<div class="comment">' + response.userName + ": " + response.comment + '</div>';
+                // var newComment = '<div class="comment">' + response.userName + ": " + response.comment + '</div>';
+                var newComment = '<div class="comment">' +
+                        '<p class="comment-meta comment-meta2"><span style="color:grey; font-size: 10px;" class="comment-date">{{formatDate response.date}}</span></p>' +
+                        '<p class="comment-content comment-content2" style="color: black; font-size: 0.9em;">' + response.userName + ': ' + response.comment + '</p>' +
+                    '</div>';
                 $('#commentsContainer-' + postId).append(newComment);
+                $('.commentInput').val('');
             },
             error: function(xhr, status, error) {
                 console.error('Error submitting comment:', error);
@@ -187,7 +290,7 @@
 
     // Function to sort posts by date
     function sortPosts(order) {
-        const url = `/myPosts?sortBy=${order}`;
+        const url = `/community?sortBy=${order}`;
         console.log(url);
         window.location.href = url;
     }
@@ -195,7 +298,7 @@
     // Function to search posts by title or content
     function searchPosts() {
         const searchTerm = document.getElementById('searchInput').value;
-        const url = `/myPosts?search=${searchTerm}`;
+        const url = `/community?search=${searchTerm}`;
         window.location.href = url;
     }
 
@@ -235,3 +338,24 @@
 </script>
 </body>
 </html>
+
+<!--
+    $('.deleteBtn').click(function() {
+        var commentId = $(this).data('comment-id');
+        var postId = $(this).data('post-id');
+
+        // Send AJAX request to server to delete the comment
+        $.ajax({
+            url: '/deleteComment',
+            method: 'DELETE',
+            data: { postId: postId, commentId: commentId },
+            success: function(response) {
+                // Remove the deleted comment from the UI
+                $(this).closest('.comment').remove();
+            },
+            error: function(xhr, status, error) {
+                console.error('Error deleting comment:', error);
+            }
+        });
+        
+        -->

@@ -1252,6 +1252,21 @@ blockquote {
   min-width: 0;
 }
 
+.form-control2 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.comment-content2 {
+  margin-bottom: 0rem;
+  margin-top: 0rem;
+}
+
+.comment-meta2 {
+  margin-bottom: 0rem;
+  margin-top: 0rem;
+}
+
 .post-content {
   margin-top: 20px;
 }
@@ -1300,9 +1315,12 @@ img.profile-photo-sm {
 
 
 .custom-form .form-control {
-  border-radius: 0; /* Remove rounded corners */
+  border-radius: 100px; /* Remove rounded corners */
 }
 
+custom-form {
+  border-radius: 10px;
+}
 .mood-selection {
   margin-bottom: 10px;
 }
