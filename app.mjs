@@ -39,6 +39,10 @@ hbs.registerHelper('formatDate', function(date) {
   return moment(date).format('MMMM Do YYYY, h:mm a');
 });
 
+hbs.registerHelper('formatDate2', function(date) {
+  return moment(date).format('MMMM Do YYYY');
+});
+
 hbs.registerHelper('eq', function(a, b) {
     return a === b;
 });
@@ -190,6 +194,9 @@ app.get("/addDiary", isAuthenticated, (req, res) => {
 
 app.post('/addDiary', isAuthenticated, async (req, res) => {
     let { date, summary, thoughts, mood } = req.body;
+    if (new Date(date) > new Date()) {
+      return res.render("addDiary", { error: 'Please Select a Date in the Past or Present!' });
+    }
     try {
       const newEntry = new Blog({
         thoughts: thoughts,

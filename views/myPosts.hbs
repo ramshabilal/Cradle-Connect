@@ -148,9 +148,9 @@
                                         {{!-- <h5 class="mb-2">{{this.userName}}Posted on: {{formatDate this.date}}</h5> --}}
                                         <h5 class="mb-2">{{this.userName}}</h5> <p style="color:grey; font-size:12px;">Posted on: {{formatDate this.date}}</p>
                                         <p class="mb-0">{{this.content}}</p>
-                                        <form method="POST" action="/deleteDiary">
-                                            <input type="hidden" name="blogId" value="{{this._id}}">
-                                            <button type="submit" class="btn custom-btn mt-3 mt-lg-4">Delete</button>
+                                        <form method="POST" action="/myPosts/delete/{{this._id}}">
+                                            {{!-- <input type="hidden" name="blogId" value="{{this._id}}"> --}}
+                                            <button type="submit" class="btn custom-btn mt-3 mt-lg-4">Delet Post</button>
                                         </form>
                                         </p>
 
@@ -189,9 +189,9 @@
 
                                 <div class="custom-block-topics-listing-info d-flex">
                                     <div>
-                                        <h5 class="mb-2">No Posts Containing this Keyword Found</h5>
+                                        <h5 class="mb-2">No Posts Found</h5>
 
-                                        <p class="mb-0">We couldn't find any posts containing the keyword you searched for. Please double-check the spelling or try using different keywords for a more accurate search.</p>
+                                        {{!-- <p class="mb-0">We could not find any posts. Please double-check the spelling or try using different keywords for a more accurate search.</p> --}}
                                         </p>
 
                                     </div>

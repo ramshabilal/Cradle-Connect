@@ -87,7 +87,9 @@
 
                                 <div class="custom-block-topics-listing-info d-flex">
                                     <div>
-                                        <h5 class="mb-2">[{{formatDate this.date}}] {{this.summary}}</h5>
+                                        {{!-- <h5 class="mb-2">[{{formatDate2 this.date}}] {{this.summary}}</h5> --}}
+                                        <h5 class="mb-2">{{this.summary}}</h5> <p style="color:grey; font-size:12px;">Entry Created on: {{formatDate2 this.date}}</p>
+
 
                                         <p class="mb-0">{{this.thoughts}}</p>
                                         </p>
