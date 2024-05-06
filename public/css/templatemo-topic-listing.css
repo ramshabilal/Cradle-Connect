@@ -526,6 +526,10 @@ strong {
   padding-bottom: 150px;
 }
 
+.hero-section3 {
+  padding-bottom: 220px;
+}
+
 .hero-section .input-group {
   background-color: var(--white-color);
   border-radius: var(--border-radius-large);
@@ -1374,4 +1378,35 @@ custom-form {
   width: 200px;
   margin-bottom: 50px;
 
+}
+
+
+/* Styling for CradleConnect Title */
+.cradle-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #fff;
+  margin-top: 20px;
+}
+
+/* Styling for CradleConnect Subtitle */
+.cradle-subtitle {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-bottom: 30px;
+}
+
+/* Styling for Sign Up and Sign In Buttons */
+.buttons-container {
+  margin-top: 20px;
+}
+
+.buttons-container .btn {
+  margin: 10px;
+}
+
+/* Styling for Landing Image */
+.landingImage {
+  max-width: 100%;
+  height: auto;
 }
