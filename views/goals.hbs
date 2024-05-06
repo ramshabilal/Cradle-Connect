@@ -126,60 +126,71 @@
     </div>
 </nav>
 <main>
-    <section class="goals-section section-padding" id="section_goals">
-        <div class="container">
+    <section class="goals-section section-padding" id="section_goals" style="background-color:rgb(232, 246, 249)">
+        <div class="container" style="border:grey solid 2px; background-color:rgb(198, 238, 251);box-shadow: 5px 5px 5px lightgrey">
+            <br>
             <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="mb-4">Today's Goals</h1>
+                    <a href="/allGoals" class="btn custom-btn custom-btn2 mt-3 mt-lg-4">Track My Goals >> </a>            </div>
+                <div class="clearfix">
+                    <br>
+                    <br>
 
-                <div class="clearfix"></div>
-
-                <div class="col-lg-5 col-12">
+                </div>
+                <div class="col-lg-5 col-12 m-auto">
                     <img src = "images/goals.webp" class="img-fluid" alt="goals">
                 </div>
-
                 <div class="col-lg-6 col-12 m-auto">
-
                     <!-- Checklist for goals -->
                     <div class="mt-4">
                         
-                        <div class="list-group" id="goalList">
+                        <div class="list-group" id="goalList" style="min-height:400px; min-width:500px;  box-shadow: 5px 5px 5px lightgrey">
                             <div style="display:flex; justify-content:right;padding-bottom:10px;font-size:14px;" id="currentDate"></div>
-                            <br>
-                            <h4 style="display:flex; justify-content:center;">My Goals</h4>
-                            <br>
-                            {{#each userGoals}}
-                                <div class="goal-item">
-                                    {{!-- <input type="checkbox" {{#if this.completed}}checked{{/if}}> 
-                                    <span class="goal-content">{{this.content}}</span>
-                                    --}}
+
+                            <h4 style="display:flex; justify-content:left;font-family:cursive">Goals for the day:</h4>
+
+                            {{#if userGoals.length}}
+                                {{#each userGoals}}
+                                    <div class="goal-item">
+                                        {{!-- <input type="checkbox" {{#if this.completed}}checked{{/if}}> 
+                                        <span class="goal-content">{{this.content}}</span>
+                                        --}}
+                                        
+                                        <!-- HTML code for the goal item with checkbox -->
+                                    <div class="goal-item" data-goal-id="{{this._id}}">
+                                        <input type="checkbox" {{#if this.completed}}checked{{/if}} onchange="updateGoalStatus('{{this._id}}')">
+                                        <span class="goal-content {{#if this.completed}}completed{{/if}}">{{this.content}}</span>
                                     
-                                    <!-- HTML code for the goal item with checkbox -->
-                                <div class="goal-item" data-goal-id="{{this._id}}">
-                                    <input type="checkbox" {{#if this.completed}}checked{{/if}} onchange="updateGoalStatus('{{this._id}}')">
-                                    <span class="goal-content {{#if this.completed}}completed{{/if}}">{{this.content}}</span>
-                                   
-                                </div>
+                                    </div>
 
-
-
-                                    </button>
-                                    <form method="POST" action="/goals/delete/{{this._id}}">
-                                        <button class="delete-btn" type="submit">
-                                        <i class="bi bi-trash"></i></button>
-                                    </form>
-                                </div>
-                            {{/each}}
+                                        </button>
+                                        <form method="POST" action="/goals/delete/{{this._id}}">
+                                            <button class="delete-btn" type="submit">
+                                            <i class="bi bi-trash"></i></button>
+                                        </form>
+                                    </div>
+                                {{/each}}
+                            {{else}}
+                                <div class="text-center" style="font-size:22px;">No goals yet</div>
+                            {{/if}}
                         </div>
                     </div>
+                    <br>
                     <!-- Form to add new goal -->
                     <form method="POST" action="/goals" id="addGoalForm">
                         <div class="mb-3" style="padding-top:10px;">
-                            <label for="goalContent" class="form-label">Goal</label>
-                            <input type="text" class="form-control" id="goalContent" name="goalContent" required>
+                            <label for="goalContent" class="form-label">Enter a New Goal: &nbsp;&nbsp;&nbsp;</label>
+                            <input type="text" class="" id="goalContent" name="goalContent" required> 
+                            {{!-- form-control --}}
+                            <button type="submit" class="btn btn-primary">Add</button>
                         </div>
-                        <button type="submit" class="btn btn-primary">Add Goal</button>
-                        <button class="btn btn-primary"> <a style="color:white" href="/allGoals">-> View all my goals</a></button>
+                        
+                        {{!-- <button class="btn btn-primary"> <a style="color:white" href="/allGoals">-> View all my goals</a></button> --}}
                     </form>
                 </div>
+
+                
             </div>
         </div>
     </section>

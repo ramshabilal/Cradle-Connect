@@ -462,6 +462,30 @@ console.log("goalId: ", goalId, "userId: ", userId);
   }
 });
 
+app.post('/goals/deleteGoal/:goalId', isAuthenticated, async (req, res) => {
+
+  const userId = req.user._id;
+  const goalId = req.params.goalId;
+  console.log("goalId: ", goalId, "userId: ", userId); 
+    try {
+        // Query the Event collection to find the specific event
+        const goal = await Goal.findOne({ _id: goalId }).exec();
+        console.log("goal: ", goal);
+        if (!goal) {
+            return res.status(404).send('Goal not found or you do not have permission to delete it.');
+        }
+  
+        // Delete the event
+        await Goal.deleteOne({ _id: goalId }).exec();
+  
+        // Redirect back to the myevents route or another appropriate route
+        res.redirect('/allGoals');
+    } catch (error) {
+        console.error('Error deleting goal:', error);
+        res.status(500).json({ error: 'An error occurred while deleting the goal' });
+    }
+  });
+
 
 app.post('/updateGoalStatus', isAuthenticated, async (req, res) => {
   const { goalId } = req.body;

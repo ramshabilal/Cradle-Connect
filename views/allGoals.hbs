@@ -54,8 +54,9 @@
         color: #888; /* Change color to gray for completed goals */
         }
         body{
-            background-color: rgb(249, 247, 247);
-            background-image: none;
+            background-color: rgb(226, 246, 247);
+            background-image: linear-gradient(180deg, rgb(230, 249, 249) 0%, rgb(255, 255, 255) 100%);
+
         }
 
         #eventChart{
@@ -135,15 +136,25 @@
 </nav>
 <main>
     <section class="goals-section section-padding" id="section_goals">
-        <div class="container">
+        <div class="container" style="border:grey solid 2px; background-color:rgb(212, 241, 251);box-shadow: 5px 5px 5px lightgrey; padding:25px">
             <div class="row">
 
-                <div class="clearfix"></div>
 
+                <div class="text-center">
+                <h2 class="mb-4">Track My Goals</h1>
+                <a href="/goals" class="btn custom-btn custom-btn2 mt-3 mt-lg-4" style="width:300px">Back to today's goals>> </a>
+                </div>
+
+
+                <div class="clearfix">
+                    <br>
+                    <br>
+                    <br>
+                </div>
                 <div class="col-lg-5 col-12">
-                    <div class="content-container" style="width:100%">
+                    <div class="content-container text-center" style="width:100%">
                         <h4>Number of Goals Completed per Day</h4>
-                        <canvas id="goalChart" width="400" height="200"></canvas>
+                        <canvas id="goalChart" width="200" height="200"></canvas>
                     </div>
                 </div>
 
@@ -151,16 +162,20 @@
                     <!-- Checklist for goals -->
                     <div class="mt-4">
                         
-                        <div class="list-group" id="goalList">
-                            <h4>All My Goals</h4>
-                            {{#each allGoals}}
+                        <div class="list-group" id="goalList" style="box-shadow: 5px 5px 5px lightgrey; min-width:600px; text-align:right">
+                            <h4 style="font-family:cursive">All My Goals</h4>
+                             {{#each allGoals}}
                                     <!-- HTML code for the goal item with checkbox -->
                                 <div class="goal-item" data-goal-id="{{this._id}}">
                                     <input type="checkbox" {{#if this.completed}}checked{{/if}} onchange="updateGoalStatus('{{this._id}}')">
                                     <span class="goal-content {{#if this.completed}}completed{{/if}}">{{this.content}}</span>
-                            
+
+                                    <form method="POST" action="/goals/deleteGoal/{{this._id}}">
+                                            <button class="delete-btn" type="submit">
+                                            <i class="bi bi-trash"></i></button>
+                                    </form>
                                 </div>
-                            {{/each}}
+                            {{/each}} 
                         </div>
                     </div>
                 </div>
@@ -216,6 +231,7 @@ a
 <script>
     document.addEventListener('DOMContentLoaded', function () {
     // Function to get the date string for the past n days
+    /*
     function getPastDates(n) {
         const dates = [];
         for (let i = n - 1; i >= 0; i--) {
@@ -246,14 +262,13 @@ a
         const date = new Date(goal.date).toLocaleDateString('en-US');
         goalCounts[date] = (goalCounts[date] || 0) + 1;
     });
-    console.log("goal counts", goalCounts);
-    console.log("goals completed", goalsCompleted);
+    
     // Get the past 30 days as labels for the chart
     const labels = getPastDates(10);
-    console.log('labels', labels);
+
     // Prepare the data for the chart
     const data = labels.map(date => goalCounts[date] || 0);
-    console.log('data', data);
+    
     // Render the chart using Chart.js
     var ctx = document.getElementById('goalChart').getContext('2d');
     var myChart = new Chart(ctx, {
@@ -315,6 +330,110 @@ a
             responsive: true // Enable responsiveness
         }
     });
+    */
+
+    function getPastDates(n) {
+    const dates = [];
+    for (let i = n - 1; i >= 0; i--) {
+        const date = new Date();
+        date.setDate(date.getDate() - i);
+        dates.push(date.toLocaleDateString('en-US'));
+    }
+    return dates;
+}
+
+// Assuming you have retrieved all goals for the past 30 days
+let allGoals = [];
+{{#each allGoals}}
+    allGoals.push({
+        date: '{{this.date}}',
+        completed: {{this.completed}}
+    });
+{{/each}}
+
+// Organize the data to count the number of goals and completed goals for each day
+const goalCounts = {};
+const completedGoalCounts = {};
+allGoals.forEach(goal => {
+    const date = new Date(goal.date).toLocaleDateString('en-US');
+    goalCounts[date] = (goalCounts[date] || 0) + 1;
+    if (goal.completed) {
+        completedGoalCounts[date] = (completedGoalCounts[date] || 0) + 1;
+    }
+});
+
+// Get the past 30 days as labels for the chart
+const labels = getPastDates(10);
+
+// Prepare the data for the chart
+const data = labels.map(date => {
+    const totalGoals = goalCounts[date] || 0;
+    const completedGoals = completedGoalCounts[date] || 0;
+    return totalGoals !== 0 ? (completedGoals / totalGoals * 100).toFixed(2) : 0;
+});
+
+// Render the chart using Chart.js
+var ctx = document.getElementById('goalChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Percentage of Goals Completed Each Day',
+            data: data,
+            backgroundColor: 'lightblue',
+            borderColor: 'black',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Date',
+                    color: 'black'
+                },
+                ticks: {
+                    color: 'black'
+                }
+            },
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Percentage of Goals Completed',
+                    color: 'black'
+                },
+                ticks: {
+                    color: 'black'
+                },
+                grid: {
+                    color: 'black'
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                display: true,
+                position: 'top',
+                labels: {
+                    color: 'black' // Text color for legend labels
+                }
+            }
+        },
+        layout: {
+            padding: {
+                left: 10,
+                right: 10,
+                top: 10,
+                bottom: 10
+            }
+        },
+        responsive: true // Enable responsiveness
+    }
+});
+
 });
 
 </script>
