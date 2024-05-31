@@ -4,6 +4,10 @@
 
 The purpose of CradleConnect is to offer a comprehensive and supportive platform for expectant mothers and those planning to conceive, enhancing their pregnancy journey. By integrating expert knowledge, community engagement, personalized insights, tracking functionalities, and journaling features, CradleConnect aims to become a trusted companion. It seeks to empower mothers by providing reliable information, fostering a global community that celebrates the diversity and joy of motherhood, and promoting the well-being of mothers and their babies through a holistic approach.
 
+#### Contributors
+* Ramsha Bilal
+* Moeez Tariq
+
 ## Steps to run
 
 ### Install Dependencies
