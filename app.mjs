@@ -13,13 +13,17 @@ import session from 'express-session';
 import hbs from 'hbs';
 import Handlebars from 'handlebars';
 import moment from 'moment';
+import MongoStore from 'connect-mongo';
 
 const app = express();
+// Initialize the MongoDB connection
+const mongoUrl = "mongodb+srv://ramshabilal:RsRRPoY9gZCVNjhi@cluster0.siam2zv.mongodb.net/cradleconnect?retryWrites=true&w=majority&appName=Cluster0";
 
 const sessionOptions = {
     secret: "abcdefg",
     resave: true,
-      saveUninitialized: true
+      saveUninitialized: true,
+      store: MongoStore.create({ mongoUrl })
 };
 app.use(session(sessionOptions));
 app.use(flash());
