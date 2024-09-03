@@ -14,5 +14,15 @@
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "url": "^0.11.3"
-  }
+  },
+  "name": "cradle-connect",
+  "version": "1.0.0",
+  "description": "### A Pregnancy Wellness App",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
 }

@@ -13,11 +13,12 @@ import session from 'express-session';
 import hbs from 'hbs';
 import Handlebars from 'handlebars';
 import moment from 'moment';
+const saltRounds = 10;
 import MongoStore from 'connect-mongo';
 
-const app = express();
-// Initialize the MongoDB connection
 const mongoUrl = "mongodb+srv://ramshabilal:RsRRPoY9gZCVNjhi@cluster0.siam2zv.mongodb.net/cradleconnect?retryWrites=true&w=majority&appName=Cluster0";
+
+const app = express();
 
 const sessionOptions = {
     secret: "abcdefg",
@@ -76,7 +77,8 @@ app.post('/signup', async (req, res) => {
           return res.render('signup', { error: 'Passwords do not match. Please try again!' });
         }
 
-        const saltRounds = parseInt(process.env.SALT_ROUNDS, 10);
+        // const saltRounds = parseInt(process.env.SALT_ROUNDS, 10);
+        const saltRounds = SALT_ROUNDS;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
         const newUser = new User({
