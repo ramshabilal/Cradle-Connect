@@ -13,7 +13,7 @@ import session from 'express-session';
 import hbs from 'hbs';
 import Handlebars from 'handlebars';
 import moment from 'moment';
-const saltRounds = SALT_ROUNDS;
+const saltRounds = 10;
 
 const app = express();
 
