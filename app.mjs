@@ -13,7 +13,7 @@ import session from 'express-session';
 import hbs from 'hbs';
 import Handlebars from 'handlebars';
 import moment from 'moment';
-const saltRounds = 10;
+const SALT_ROUNDS = 10;
 import MongoStore from 'connect-mongo';
 
 const mongoUrl = "mongodb+srv://ramshabilal:RsRRPoY9gZCVNjhi@cluster0.siam2zv.mongodb.net/cradleconnect?retryWrites=true&w=majority&appName=Cluster0";
