@@ -7,6 +7,8 @@ The purpose of CradleConnect is to offer a comprehensive and supportive platform
 #### Contributors
 * Ramsha Bilal
 * Moeez Tariq
+* Aziq Furqan
+* Mashrafi Monon
 
 ## Steps to run
 
